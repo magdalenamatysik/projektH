@@ -17,27 +17,35 @@
 	}
 	else{ 
 		$login =$_POST['login'];
-		$password =$_POST['password'];
-		
-	
-		$sql = "SELECT*FROM uzytkownicy WHERE login='$login' AND password='$password'";
+		$haslo1 =$_POST['password'];
+			
+		$sql = "SELECT*FROM uzytkownicy WHERE login='$login'";
 		if($result = @$conect->query($sql)){
 			$user =$result->num_rows;
 			if($user>0){
 				$wiersz =$result->fetch_assoc();
+				$hash = $wiersz['password'];
 				
-				$_SESSION['login'] =$wiersz['login'];
-				$_SESSION['zalogowany']=true;
-				$_SESSION['id']=$wiersz['ID'];
+				if (password_verify($haslo1,$wiersz['password'])){
+					$_SESSION['login'] =$wiersz['login'];
+					$_SESSION['zalogowany']=true;
+					$_SESSION['id']=$wiersz['ID'];
 				
-				unset($_SESSION['blad']);
+					unset($_SESSION['blad']);
 				
-				$result->free_result();
+					$result->free_result();
+					
+					header('Location: harmonogram.php');
+				}
 				
-				header('Location: harmonogram.php');
+				else{
+					header('Location: index.php');
+				}
+				
 	
 			}else{
-				$_SESSION['blad'] = '<span style ="color:white" >Nieprawidłowy login lub hasło! </span>';
+				$_SESSION['blad'] = '<span style ="color:white" >Nieprawidłowy login! </span>';
+				
 				header('Location: index.php');
 			}
 		}

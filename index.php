@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	session_unset();
 	if(isset($_SESSION['zalogowany'])&&($_SESSION['zalogowany']==true)){
 		header('Location: harmonogram.php');
 		exit();
@@ -49,7 +50,7 @@
 			</form>
 		
 			
-			<div class ="tekst4" >Nie masz konta? </div>
+			<div class ="tekst4" >Nie masz konta?   </div>
 			<a href="rejestracja.php" > <Button  class="button" /> Zarejestruj się </Button> </a>
 			
 			

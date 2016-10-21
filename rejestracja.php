@@ -4,13 +4,10 @@
 
 	if (isset($_POST['email']))
 	{
-		//Udana walidacja? Załóżmy, że tak!
+		
 		$wszystko_OK=true;
-		
-		//Sprawdź poprawność nickname'a
 		$nick = $_POST['login'];
-		
-		//Sprawdzenie długości nicka
+
 		if ((strlen($nick)<3) || (strlen($nick)>20))
 		{
 			$wszystko_OK=false;
@@ -49,9 +46,10 @@
 			$_SESSION['e_haslo']="Podane hasła nie są identyczne!";
 		}	
 
-		//$haslo_hash = password_hash($haslo1, PASSWORD_DEFAULT);
+		$haslo_hash = password_hash($haslo1, PASSWORD_DEFAULT );
+	
 		
-		$haslo_hash =$haslo1;
+	//	$haslo_hash =$haslo1;
 		//Czy zaakceptowano regulamin?
 		if (!isset($_POST['regulamin']))
 		{

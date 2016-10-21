@@ -55,8 +55,14 @@
 		</div>
 		
 		<div id="list">
-		
-
+			<div class ="task" > aaa </div>
+			<div class ="task" > aaa </div>
+			<div class ="task" > aaa </div>
+			<div class ="task" > aaa </div>
+			<div class ="task" > aaa </div>
+			<div class ="task" > aaa </div>
+			<div class ="task" > aaa </div>
+			
 
 		</div>
 	
@@ -107,7 +113,7 @@
 							<div class ="tekst5">Dodaj spotkanie</div>
 							
 							<div class="polel" > tytuł: </div> 
-								<div class="poler" > <input type="text" name="tytul" />
+							<div class="poler" > <input type="text" name="tytul" />
 							</div>
 							<div class="polel" > opis: </div> 
 							<div class="poler" > <input name="opis" />
