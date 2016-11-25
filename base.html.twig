@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <meta charset="utf-8" />
+        <title>Harmonogram</title>
+        <meta name="description" content="Strona tworzaca harmonogram zajec" />
+        <meta name="keywords" content="harmonogram plan" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+        <link rel="stylesheet" href="css/fontello.css" type="text/css" />
+
+        <link href='http://fonts.googleapis.com/css?family=Lato|Josefin+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
+
