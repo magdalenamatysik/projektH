@@ -24,16 +24,16 @@
             </a>
 
 
+            <a href="/add" style="text-decoration: none"  >
 
-            <a href="/add" style="text-decoration: none" >
 
                 <div id= "add_meetbox" style="background-color:#e6db55">
                     <div id="tekst">
                         dodaj zadanie
                     </div>
                 </div>
-            </a>
 
+            </a>
             <a href="/addmeet" style="text-decoration: none" >
 
                 <div id= "add_meetbox">
@@ -95,7 +95,10 @@
 
     </div>
     {% block javascript %}
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
         <script>
+
 
 
             var div_list =document.getElementById("1");
@@ -108,14 +111,15 @@
 
             {% for job in jobs %}
             if(i==1) div_list.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20 }}px"> {{ job.name }} </div>  </a>');
-            if(i==2) div_list2.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task"  style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
-            if(i==3) div_list3.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
-            if(i==4) div_list4.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
-            if(i==5) {
+            else if(i==2) div_list2.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task"  style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            else if(i==3) div_list3.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            else if(i==4) div_list4.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            else {
                 div_list5.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20 }}px"> {{ job.name }} </div>  </a>');
                 i=0;
             }
             i++;
+
             {% endfor %}
 
 
@@ -128,56 +132,38 @@
             var div_sun =document.getElementById("sun");
 
 
+            {% for t in data %}
 
-            {% for m in mon %}
+               if ( {{ days[0] }} == {{ t[0] }} ) div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[2] }} == {{ t[0] }} ) div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[4] }} == {{ t[0] }} ) div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[6] }} == {{ t[0] }} ) div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="bottom: 0px;   height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  {{ t[2] }}</div>  </a>');
+               if ( {{ days[8] }} == {{ t[0] }} ) {
+                   div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style = " height: {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[2] }}</div>  </a>');
 
-                    div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ m.id }}"  > <div class ="task" style ="height:  {{ m.duration*20 }}px; background-color: #b7EE6E"> {{ m.name }} </div>  </a>');
-
-            {% endfor %}
-
-            {% for t in tue %}
-
-                    div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
-
-            {% endfor %}
-
-            {% for t in wed %}
-
-                    div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
+               }if ( {{ days[10]}} == {{ t[0] }} ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[12]}} == {{ t[0] }} ) div_sun.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 
             {% endfor %}
 
-            {% for t in thu %}
 
-                    div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
 
-            {% endfor %}
-
-            {% for t in fri %}
-
-                    div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
-
-            {% endfor %}
-
-            {% for t in sat %}
-
-                    div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
-
-            {% endfor %}
-
-            {% for t in sun %}
-
-            div_sun.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height: {{ t.duration*20 }}px;background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
-
-            {% endfor %}
-
+            currentX =currentY =0;
+            var idJob =0;
 
             function allowDrop(ev) {
                 ev.preventDefault();
+                ev.dataTransfer.dropEffect = "move";
+
             }
 
             function drag(ev) {
                 ev.dataTransfer.setData("text", ev.target.id);
+
+
+
+
+
             }
 
             function drop(ev) {
@@ -185,7 +171,15 @@
                 var data = ev.dataTransfer.getData("text");
                 ev.target.appendChild(document.getElementById(data));
 
+                currentX= ev.pageX;
+                currentY= ev.pageY;
+
+
+
             }
+
+
+
 
 
 

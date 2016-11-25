@@ -1,269 +1,303 @@
-<?php
+{% extends 'base.html.twig'  %}
 
-namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\Form\UserType;
-use AppBundle\Form\login;
-use AppBundle\Entity\user;
-use AppBundle\Entity\job;
-use AppBundle\Form\add_job;
-use AppBundle\Form\addMeet;
-use AppBundle\Form\show;
 
+{% block body %}
 
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Validator\Constraints\DateTime;
 
-class DefaultController extends Controller
-{
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction(Request $request)
-    {
 
-        $user = new user();
-        $form = $this->createForm(login::class, $user);
 
-        $session = new Session();
+    <div id="container" onload="process()">
 
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            $userp = $this->getDoctrine()->getRepository('AppBundle:user')
-                ->findOneBy( array('login' => $user->getLogin()));
-            $session->set('user',  $userp);
+        <div id="menu">
 
-               if( password_verify($user->getPassword(),$userp->getPassword())){
+            <a href="/harmonogram" style="text-decoration: none" >
+            <div id ="user_panel">
+                <div id="tekstt">
+                    Hej, {{ user.login }}
+                </div>
 
-                   return $this->redirectToRoute('harmonogram' );
-               }
+            </div>
+            </a>
 
-                else return $this->render('default/index.html.twig', array('user'=>$userp, 'user2' =>$user));
 
-        }
+            <a href="#" style="text-decoration: none"  onclick=" changeList('/add', 'list'); ">
 
 
-        return $this->render('default/login.html.twig',  array('form' => $form->createView()));
+                <div id= "add_meetbox" style="background-color:#e6db55">
+                    <div id="tekst">
+                        dodaj zadanie
+                    </div>
+                </div>
 
+            </a>
+            <a href="#" style="text-decoration: none"  onclick=" changeList('/addmeet', 'list'); ">
 
-        // replace this example code with whatever you need
-        // return $this->render('default/index.html.twig');
-    }
+                <div id= "add_meetbox">
+                    <div id="tekst">
+                        dodaj spotkanie
+                    </div>
+                </div>
+            </a>
 
-    /**
-     * @Route("/harmonogram", name="harmonogram")
-     */
-    public function harmonogramAction(Request $request )
-    {
-        $session = $request->getSession();
-        $user = $session->get('user');
 
-        //spradz czy task spradzanie id i flagi (0- task)
-        $jobs = $this->getDoctrine()->getRepository('AppBundle:job')->findBy( array('idUser' => $user->getID(), 'flag'=> 0));
+        </div>
 
+        <div id="list" >
+            <div class="listcolumn" id="1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
+        </div>
 
 
-        $time = strtotime("last Monday");
 
-        $day=date("d", $time);
-        $month=date("m", $time);
-        $year =date("Y", $time);
-        $data =new \DateTime();
 
+        <div id="harm">
+            <div class="tekst2">{{ days[0] }}.{{ days[1] }} Poniedziałek </div>
+            <div class="tekst2">{{ days[2] }}.{{ days[3] }} Wtorek</div>
+            <div class="tekst2">{{ days[4] }}.{{ days[5] }} Środa</div>
+            <div class="tekst2">{{ days[6] }}.{{ days[7] }} Czwartek</div>
+            <div class="tekst2">{{ days[8] }}.{{ days[9] }} Piątek</div>
+            <div class="tekst2">{{ days[10] }}.{{ days[11] }} Sobota</div>
+            <div class="tekst2">{{ days[12] }}.{{ days[13] }} Niedziela</div>
 
-        $days=array();
+            <div class="day" id="mon" ondrop="drop(event)" ondragover="allowDrop(event)">
+            </div>
+            <div class="day" id="tue"  ondrop="drop(event)" ondragover="allowDrop(event)">
 
-        for ($i=0; $i<8; $i++){
+            </div>
+            <div class="day" id="wed" ondrop="drop(event)" ondragover="allowDrop(event)">
 
-           if ($day<32) {
-               array_push($days, $day,$month);
-               $day++;
-           }else{
-               $day=1;
-               $month++;
-           }
-        }
+            </div>
+            <div class="day" id="thu" ondrop="drop(event)" ondragover="allowDrop(event)">
 
+            </div>
+            <div class="day" id="fri" ondrop="drop(event)" ondragover="allowDrop(event)">
 
+            </div>
+            <div class="day" id="sat" ondrop="drop(event)" ondragover="allowDrop(event)">
 
+            </div>
+            <div class="day" id="sun" ondrop="drop(event)" ondragover="allowDrop(event)">
 
-        $meets = $this->getDoctrine()->getRepository('AppBundle:job')->findBy(array('idUser' => $user->getID(), 'flag'=> 1));
+            </div>
 
-        $mon=array();
-        $tue=array();
-        $wed=array();
-        $thu=array();
-        $fri=array();
-        $sat=array();
-        $sun=array();
 
-      for($i=0; $i<sizeof($meets);$i++){
+        </div>
 
-          if ($meets[$i]->getTimeDay() == $days[0] && $meets[$i]->getTimeMonth() == $days[1]) array_push($mon, $meets[$i]);
-          if ($meets[$i]->getTimeDay() == $days[2] && $meets[$i]->getTimeMonth() == $days[3]) array_push($tue, $meets[$i]);
-          if ($meets[$i]->getTimeDay() == $days[4] && $meets[$i]->getTimeMonth() == $days[5]) array_push($wed, $meets[$i]);
-          if ($meets[$i]->getTimeDay() == $days[6] && $meets[$i]->getTimeMonth() == $days[7]) array_push($thu, $meets[$i]);
-          if ($meets[$i]->getTimeDay() == $days[8] && $meets[$i]->getTimeMonth() == $days[9]) array_push($fri, $meets[$i]);
-          if ($meets[$i]->getTimeDay() == $days[10] && $meets[$i]->getTimeMonth() == $days[11]) array_push($sat, $meets[$i]);
-          if ($meets[$i]->getTimeDay() == $days[12] && $meets[$i]->getTimeMonth() == $days[13]) array_push($sun, $meets[$i]);
-    }
 
-        return $this->render('default/harmonogram.html.twig',array('user' => $user, 'days' => $days, 'jobs' => $jobs, 'mon'=>$mon, 'tue'=>$tue, 'wed'=>$wed, 'thu'=>$thu, 'fri'=>$fri, 'sat'=>$sat, 'sun'=>$sun));
-    }
 
+    </div>
+    {% block javascript %}
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
-    /**
-     * @Route("/add", name="add")
-     */
-    public function addAction(Request $request)
-    {
-        $job = new job();
-        $form = $this->createForm(add_job::class, $job);
+        <script>
 
 
 
-        $session = $request->getSession();
-        $user = $session->get('user');
+            var div_list =document.getElementById("1");
+            var div_list2 =document.getElementById("2");
+            var div_list3 =document.getElementById("3");
+            var div_list4 =document.getElementById("4");
+            var div_list5 =document.getElementById("5");
 
+            var i=0;
 
+            {% for job in jobs %}
+            if(i==1) div_list.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}"  draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20 }}px"> {{ job.name }} </div>  </a>');
+            else if(i==2) div_list2.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task"  style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            else if(i==3) div_list3.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            else if(i==4) div_list4.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            else {
+                div_list5.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20 }}px"> {{ job.name }} </div>  </a>');
+                i=0;
+            }
+            i++;
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+            {% endfor %}
 
-            $job->setIdUser($user->getId());
-            $job->setTime2($job->getTime());
-            $job->setFlag(0);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($job);
-            $em->flush();
 
+            var div_mon =document.getElementById("mon");
+            var div_tue =document.getElementById("tue");
+            var div_wed =document.getElementById("wed");
+            var div_thu =document.getElementById("thu");
+            var div_fri =document.getElementById("fri");
+            var div_sat =document.getElementById("sat");
+            var div_sun =document.getElementById("sun");
 
-             return $this->redirectToRoute('harmonogram');
 
-        }
-        return $this->render('default/add_job.html.twig',array('form' => $form->createView(),'user' => $user));
-    }
+            {% for t in data %}
 
+               if ( {{ days[0] }} == {{ t[0] }} ) div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[2] }} == {{ t[0] }} ) div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[4] }} == {{ t[0] }} ) div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[6] }} == {{ t[0] }} ) div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="bottom: 0px;   height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  {{ t[2] }}</div>  </a>');
+               if ( {{ days[8] }} == {{ t[0] }} ) {
+                   div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style = " height: {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[2] }}</div>  </a>');
 
-    /**
-     * @Route("/addmeet", name="addmeet")
-     */
-    public function addmeetAction(Request $request)
-    {
-        $job = new job();
-        $form2 = $this->createForm(addMeet::class, $job);
+               }if ( {{ days[10]}} == {{ t[0] }} ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+               if ( {{ days[12]}} == {{ t[0] }} ) div_sun.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 
+            {% endfor %}
 
 
-        $session = $request->getSession();
-        $user = $session->get('user');
 
+            currentX =currentY =0;
+            var idJob =0;
 
-        $form2->handleRequest($request);
 
-        if ($form2->isSubmitted() && $form2->isValid()) {
 
-            $job->setIdUser($user->getId());
-            $job->setFlag(1);
+            function allowDrop(ev) {
+                ev.preventDefault();
 
-            $time2 = new \DateTime($job->getTime3());
-            $time2->modify("+ {$job->getDuration()} hour");
 
-            $job->setTime2($time2);
+            }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($job);
-            $em->flush();
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
 
 
-            return $this->redirectToRoute('harmonogram');
 
-        }
-        return $this->render('default/addMeet.html.twig',array('form2' => $form2->createView(),'user' => $user));
-    }
 
 
-    /**
-     * @Route("/show/{id}", name="show")
-     */
-    public function showAction($id, Request $request)
-    {
-        $job = $this->getDoctrine()->getRepository('AppBundle:job')->find($id);
-        $form = $this->createForm(show::class, $job);
 
-        $session = $request->getSession();
-        $user = $session->get('user');
+            }
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+                ev.target.appendChild(document.getElementById(data));
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($job);
-            $em->flush();
+                currentX= ev.pageX;
+                currentY= ev.pageY;
 
+                $.post('/change');
 
-            return $this->redirectToRoute('harmonogram');
+                var dane =
+                $ajax({
+                    type: "POST",
+                    url: "/change",
+                    data: {kajax:dane, x:currentX, y:currentY},
 
-        }
-        return $this->render('default/show.html.twig',array('form' => $form->createView(),'user' => $user , 'jobID' => $job->getID()));
-    }
+                        sucess: function () {
+                            alert("super");
+                        }
 
+                })
 
-    /**
-     * @Route("/delete/{id}", name="delete")
-     */
-    public function deleteAction($id, Request $request)
-    {
-        $job = $this->getDoctrine()->getRepository('AppBundle:job')->find($id);
 
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->remove($job);
-            $em->flush();
-            return $this->redirectToRoute('harmonogram');
 
+            }
 
-    }
 
+            var xmlHttp = createXmlHttpRequestObject();
 
-    /**
-     * @Route("/register", name="register")
-     */
-    public function registerAction(Request $request)
-    {
-        $user = new user();
-        $form = $this->createForm(UserType::class, $user);
+            function createXmlHttpRequestObject()
+            {
+                var xmlHttp;
 
-        $form->handleRequest($request);
+                if(window.ActiveXObject)
+                {
+                    try
+                    {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        xmlHttp = new XMLHttpRequest();
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
 
-        if ($form->isSubmitted() && $form->isValid()) {
+                if(!xmlHttp)
+                    alert("cant create object");
+                else
+                    return xmlHttp;
 
-            $password = $this->get('security.password_encoder')
-                ->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            }
 
 
-            return $this->redirectToRoute('homepage');
-        }
+            function process(){
+                if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
 
-        return $this->render(
-            'default/register.html.twig',
-            array('form' => $form->createView())
-        );
 
-        // replace this example code with whatever you need
 
-    }
 
+                }else {
 
-}
+                }
+
+
+            }
+
+
+
+
+            var r;
+            var e;
+
+            function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        e.innerHTML = r.responseText;
+                    }
+                }
+            }
+
+            function changeList(adresurl, htmlid)
+            {
+                if (r = xmlHttp) {
+                    e = document.getElementById(htmlid);
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+
+
+            function submitForm(oFormElement)
+            {
+                var xhr = xmlHttp;
+
+                xhr.open (oFormElement.method, oFormElement.action, true);
+                xhr.send (new FormData (oFormElement));
+                
+                
+                
+                return false;
+            }
+
+
+
+
+        </script>
+
+    {% endblock %}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+

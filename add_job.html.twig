@@ -9,91 +9,10 @@
 {% block body %}
 
 
-    <div id="container">
-
-
-
-        <div id="menu">
-
-            <a href="/harmonogram" style="text-decoration: none" >
-                <div id ="user_panel">
-                    <div id="tekstt">
-                        Hej, {{ user.login }}
-                    </div>
-
-                </div>
-            </a>
-
-            <a href="/add" style="text-decoration: none" >
-
-                <div id= "add_meetbox" style="background-color:#e6db55">
-                    <div id="tekst">
-                        dodaj zadanie
-                    </div>
-                </div>
-            </a>
-
-            <a href="/addmeet" style="text-decoration: none">
-
-                <div id= "add_meetbox">
-                    <div id="tekst">
-                        dodaj spotkanie
-                    </div>
-                </div>
-            </a>
-
-
-
-        </div>
-
-        <div id="list" style="align-content: center">
 
             {{form_start(form)}}
             {{form_widget(form)}}
             {{form_end(form)}}
-
-
-        </div>
-
-
-        <div id="harm">
-
-            <div class="tekst2"> Poniedziałek </div>
-            <div class="tekst2"> Wtorek </div>
-            <div class="tekst2"> Środa </div>
-            <div class="tekst2"> Czwartek </div>
-            <div class="tekst2"> Piątek </div>
-            <div class="tekst2"> Sobota </div>
-            <div class="tekst2"> Niedziela </div>
-
-            <div class="day" id="mon">
-            </div>
-            <div class="day" id="tue">
-
-            </div>
-            <div class="day" id="wed">
-
-            </div>
-            <div class="day" id="thu">
-
-            </div>
-            <div class="day" id="fri">
-
-            </div>
-            <div class="day" id="sat">
-
-            </div>
-            <div class="day" id="sun">
-
-            </div>
-        </div>
-
-
-
-    </div>
-
-
-
 
 
 
