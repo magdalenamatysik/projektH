@@ -38,9 +38,15 @@ class job
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time", type="date")
+     * @ORM\Column(name="time", type="datetime")
      */
     private $time;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="time2", type="datetime")
+     */
+    private $time2;
 
     /**
      * @var float
@@ -52,10 +58,15 @@ class job
     /**
      * @var int
      *
-     * @ORM\Column(name="id_user", type="integer")
+     * @ORM\Column(name="iduser", type="integer")
      */
     private $idUser;
-
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="flag", type="integer")
+     */
+    private $flag;
 
     /**
      * Get id
@@ -134,10 +145,72 @@ class job
      *
      * @return \DateTime
      */
+    public function getTime2()
+    {
+        return $this->time2;
+    }
+    /**
+     * Set time
+     *
+     * @param \DateTime $time2
+     *
+     * @return job
+     */
+    public function setTime2($time2)
+    {
+        $this->time2 = $time2;
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * Get time
+     *
+     * @return \DateTime
+     */
     public function getTime()
     {
         return $this->time;
     }
+
+    /**
+     * Get timeday
+     *
+     * @return \string
+     */
+    public function getTimeDay()
+    {
+
+        return  $this->time->format("d");
+    }
+
+    /**
+     * Get timemonth
+     *
+     * @return \string
+     */
+    public function getTimeMonth()
+    {
+
+        return  $this->time->format("m");
+    }
+
+
+    /**
+     * Get
+     *
+     * @return \string
+     */
+    public function getTime3()
+    {
+
+        return  $this->time->format("Y-m-d G:i");
+    }
+
+
 
     /**
      * Set duration
@@ -185,6 +258,29 @@ class job
     public function getIdUser()
     {
         return $this->idUser;
+    }
+    /**
+     * Set flag
+     *
+     * @param integer $flag
+     *
+     * @return job
+     */
+    public function setFlag($flag)
+    {
+        $this->flag = $flag;
+
+        return $this;
+    }
+
+    /**
+     * Get flag
+     *
+     * @return int
+     */
+    public function getFlag()
+    {
+        return $this->flag;
     }
 }
 

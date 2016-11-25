@@ -16,13 +16,14 @@
         <div id="menu">
 
             <a href="/harmonogram" style="text-decoration: none" >
-                <div id ="user_panel">
-                    <div id="tekstt">
-                        Hej, {{ user.login }}
-                    </div>
 
+            <div id ="user_panel">
+                <div id="tekstt">
+                    Hej, {{ user.login }}.{{ user.id }}
                 </div>
-            </a>
+
+            </div>
+                </a>
 
             <a href="/add" style="text-decoration: none" >
 
@@ -33,7 +34,7 @@
                 </div>
             </a>
 
-            <a href="/addmeet" style="text-decoration: none">
+            <a href="/addmeet"  >
 
                 <div id= "add_meetbox">
                     <div id="tekst">
@@ -43,14 +44,20 @@
             </a>
 
 
-
         </div>
 
-        <div id="list" style="align-content: center">
+        <div id="list">
+            <div id="job">
 
-            {{form_start(form)}}
-            {{form_widget(form)}}
-            {{form_end(form)}}
+                {{form_start(form)}}
+                {{form_widget(form)}}
+                {{form_end(form)}}
+                <a href="/delete/{{jobID}} ">  <div class="button" style="margin-top: 0px">usuń</div> </a>
+
+            </div>
+
+
+
 
 
         </div>
@@ -97,9 +104,9 @@
 
 
 
+
+
 {% endblock %}
-
-
 
 
 

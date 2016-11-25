@@ -1,6 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig'  %}
+
+
+
 
 {% block body %}
+
+
 
 
     <div id="container">
@@ -9,61 +14,78 @@
 
         <div id="menu">
 
-
+            <a href="/harmonogram" style="text-decoration: none" >
             <div id ="user_panel">
                 <div id="tekstt">
-                    Hej, {{ user.login }}.{{ user.id }}
+                    Hej, {{ user.login }}
                 </div>
 
             </div>
+            </a>
 
-<li> <a href="/add/{{ user.id }}" >
 
-            <div id= "add_meet">
-                <div id="tekst">
-                    dodaj spotkanie/zadanie
+
+            <a href="/add" style="text-decoration: none" >
+
+                <div id= "add_meetbox" style="background-color:#e6db55">
+                    <div id="tekst">
+                        dodaj zadanie
+                    </div>
                 </div>
-            </div>
-    </a>
-</li>
+            </a>
 
-        </div>
+            <a href="/addmeet" style="text-decoration: none" >
 
-        <div id="list">
-            <div class ="task" > aaa </div>
-            <div class ="task" > aaa </div>
-            <div class ="task" > aaa </div>
-            <div class ="task" > aaa </div>
-            <div class ="task" > aaa </div>
-            <div class ="task" > aaa </div>
-            <div class ="task" > aaa </div>
+                <div id= "add_meetbox">
+                    <div id="tekst">
+                        dodaj spotkanie
+                    </div>
+                </div>
+            </a>
 
 
         </div>
+
+        <div id="list" >
+            <div class="listcolumn" id="1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="listcolumn" id="5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+        </div>
+
+
 
 
         <div id="harm">
+            <div class="tekst2">{{ days[0] }}.{{ days[1] }} Poniedziałek </div>
+            <div class="tekst2">{{ days[2] }}.{{ days[3] }} Wtorek</div>
+            <div class="tekst2">{{ days[4] }}.{{ days[5] }} Środa</div>
+            <div class="tekst2">{{ days[6] }}.{{ days[7] }} Czwartek</div>
+            <div class="tekst2">{{ days[8] }}.{{ days[9] }} Piątek</div>
+            <div class="tekst2">{{ days[10] }}.{{ days[11] }} Sobota</div>
+            <div class="tekst2">{{ days[12] }}.{{ days[13] }} Niedziela</div>
 
-            <div class="day">
-                <div class="tekst2"> Poniedziałek </div>
+            <div class="day" id="mon" ondrop="drop(event)" ondragover="allowDrop(event)">
             </div>
-            <div class="day">
-                <div class="tekst2"> Wtorek </div>
+            <div class="day" id="tue"  ondrop="drop(event)" ondragover="allowDrop(event)">
+
             </div>
-            <div class="day">
-                <div class="tekst2"> Środa </div>
+            <div class="day" id="wed" ondrop="drop(event)" ondragover="allowDrop(event)">
+
             </div>
-            <div class="day">
-                <div class="tekst2"> Czwartek </div>
+            <div class="day" id="thu" ondrop="drop(event)" ondragover="allowDrop(event)">
+
             </div>
-            <div class="day">
-                <div class="tekst2"> Piątek </div>
+            <div class="day" id="fri" ondrop="drop(event)" ondragover="allowDrop(event)">
+
             </div>
-            <div class="day">
-                <div class="tekst2"> Sobota </div>
+            <div class="day" id="sat" ondrop="drop(event)" ondragover="allowDrop(event)">
+
             </div>
-            <div class="day">
-                <div class="tekst2"> Niedziela </div>
+            <div class="day" id="sun" ondrop="drop(event)" ondragover="allowDrop(event)">
+
             </div>
 
 
@@ -72,381 +94,113 @@
 
 
     </div>
+    {% block javascript %}
+        <script>
+
+
+            var div_list =document.getElementById("1");
+            var div_list2 =document.getElementById("2");
+            var div_list3 =document.getElementById("3");
+            var div_list4 =document.getElementById("4");
+            var div_list5 =document.getElementById("5");
+
+            var i=0;
+
+            {% for job in jobs %}
+            if(i==1) div_list.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20 }}px"> {{ job.name }} </div>  </a>');
+            if(i==2) div_list2.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task"  style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            if(i==3) div_list3.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            if(i==4) div_list4.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" > <div class ="task" style ="height: {{ job.duration*20}}px"> {{ job.name }} </div>  </a>');
+            if(i==5) {
+                div_list5.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ job.id }}" draggable="true" ondragstart="drag(event)" id="{{ job.id }}"> <div class ="task" style ="height: {{ job.duration*20 }}px"> {{ job.name }} </div>  </a>');
+                i=0;
+            }
+            i++;
+            {% endfor %}
+
+
+            var div_mon =document.getElementById("mon");
+            var div_tue =document.getElementById("tue");
+            var div_wed =document.getElementById("wed");
+            var div_thu =document.getElementById("thu");
+            var div_fri =document.getElementById("fri");
+            var div_sat =document.getElementById("sat");
+            var div_sun =document.getElementById("sun");
+
+
+
+            {% for m in mon %}
+
+                    div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ m.id }}"  > <div class ="task" style ="height:  {{ m.duration*20 }}px; background-color: #b7EE6E"> {{ m.name }} </div>  </a>');
+
+            {% endfor %}
+
+            {% for t in tue %}
+
+                    div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
+
+            {% endfor %}
+
+            {% for t in wed %}
+
+                    div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
+
+            {% endfor %}
+
+            {% for t in thu %}
+
+                    div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
+
+            {% endfor %}
+
+            {% for t in fri %}
+
+                    div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
+
+            {% endfor %}
+
+            {% for t in sat %}
+
+                    div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height:  {{ t.duration*20 }}px; background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
+
+            {% endfor %}
+
+            {% for t in sun %}
+
+            div_sun.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t.id }}"  > <div class ="task" style ="height: {{ t.duration*20 }}px;background-color: #b7EE6E"> {{ t.name }} </div>  </a>');
+
+            {% endfor %}
+
+
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+                ev.target.appendChild(document.getElementById(data));
+
+            }
+
+
+
+        </script>
+
+    {% endblock %}
 
 
 
 
-
-    <!-- The Modal meet -->
-    <div id="add_task_model" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">x</span>
-
-            <form action="dodaj.php" method="post">
-                <div class ="tekst5">Dodaj spotkanie</div>
-
-                <div class="polel" > tytuł: </div>
-                <div class="poler" > <input type="text" name="tytul" />
-                </div>
-                <div class="polel" > opis: </div>
-                <div class="poler" > <input name="opis" />
-                </div>
-                <div class="polel" > deadline: </div>
-                <div class="poler" > <input style="width:160px" type="date" name="data" />
-                </div>
-                <div class="polel" > czas: </div>
-                <div class="poler" > <input name="czas" />
-                </div>
-
-
-
-                <input type="submit" class="button" style="margin-top: 5px" value="dodaj" />
-
-            </form>
-        </div>
-
-    </div>
 
 
 {% endblock %}
 
 
-{% block javascripts %}
 
-    var modal = document.getElementById('add_task_model');
-
-    var btn = document.getElementById("add_meet");
-
-    var span = document.getElementsByClassName("close")[0];
-
-    btn.onclick = function() {
-    modal.style.display = "block";
-    }
-
-    span.onclick = function() {
-    modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-    if (event.target == modal) {
-    modal.style.display = "none";
-    }
-    }
-
-
-
-
-{% endblock %}
-
-{% block stylesheets %}
-
-    <style>
-
-
-
-
-        #container
-        {
-            width: 1400px;
-            height: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 5px;
-            text-align: center;
-            font-size:10px;
-
-        }
-
-
-
-
-        body{
-            background-color: #666666;
-            font-family: 'Lato', sans-serif;
-            font-size:10px;
-        }
-
-
-        #menu{
-            float: left;
-            width: 400px;
-            height: 300px;
-
-        }
-
-        #user_panel{
-
-            width: 385px;
-            height: 135px;
-            margin: 10px;
-            background-color: #00EE22;
-            margin-left:15px;
-
-        }
-
-        #user_panel:hover
-        {
-            background-color: #00DD11;
-        }
-
-
-        #tekst{
-            width: 380px;
-            height: 100px;
-            text-align: center;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 30px;
-            color: white;
-            padding-top: 50px;
-        }
-
-
-        #tekstt{
-            width: 380px;
-            height: 100px;
-            text-align: center;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 30px;
-            color: white;
-            padding-top: 35px;
-
-        }
-
-
-        #add_meet{
-
-            width: 385px;
-            height: 135px;
-            margin-left:15px;
-            background-color: #00CCCB;
-
-        }
-
-        #add_meet:hover
-        {
-            background-color: #00BBBA;
-        }
-
-
-        #list{
-
-            float: left;
-            width: 975px;
-            height: 280px;
-            margin:10px;
-            background-color: lightgray;
-
-        }
-
-
-        #harm
-        {
-            clear: both;
-            width: 1380px;
-            height: 485px;
-            margin: 10px;
-
-
-
-        }
-
-
-        .day{
-            float: left;
-            width: 187px;
-            height: 470px;
-            margin: 5px;
-            background-color:#CAE593;
-
-        }
-
-        .task{
-            float: left;
-            width: 185px;
-            margin: 5px;
-            background-color:#C8FF65;
-            font-family: 'Josefin Sans', sans-serif;
-
-        }
-
-
-        .task:hover{
-            background-color:#A0D482;
-        }
-
-        .tekst2{
-            width: 187px;
-            height: 50px;
-            text-align: center;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 20px;
-            color: gray;
-            text-decoration: underline ;
-
-        }
-
-        .tekst3{
-            width: 380px;
-            height: 40px;
-            text-align: center;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 30px;
-            color: white;
-            margin-bottom: 10px;
-            background-color:#00BBBA;
-        }
-
-        .tekst4{
-            width: 150px;
-            height: 40px;
-            text-align: right;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 20px;
-            color: white;
-            margin-top: 72px;
-            float: left;
-
-        }
-        .tekst5{
-
-            height: 30px;
-            text-align: center;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 30px;
-            color: #ffffff;
-            margin-bottom: 30px;
-
-        }
-
-        #logframe{
-            width: 380px;
-            height: 250px;
-
-            text-align: center;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 30px;
-            color: white;
-            background-color: #00CCCB;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 200px;
-
-
-        }
-
-
-        .polel{
-
-            width: 190px;
-            height: 20px;
-            text-align: center;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 20px;
-            color: white;
-            margin-top:10px;
-            float: left;
-
-
-        }
-
-        .poler{
-
-            width: 190px;
-            height: 20px;
-            text-align: left;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 15px;
-            color: white;
-            margin-top:10px;
-            float: left;
-
-
-        }
-
-
-
-        .button{
-            width: 160px;
-            height: 30px;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 18px;
-            text-align: center;
-            color: white;
-            float: right;
-            background-color:#00BBBA;
-            box-shadow: 0 3px 3px #00AAA5;
-            text-decoration:none;
-            margin-top: 10px;
-            margin-right: 27px;
-            margin-bottom: 20px;
-
-        }
-
-        a.button:hover {
-            background: #00AAA5;
-
-        }
-        #myBtn{
-            width: 100px;
-            height: 30px;
-            margin-left:auto;
-            margin-right:auto;
-            font-family: 'Josefin Sans', sans-serif;
-            font-size: 18px;
-            color: white;
-            background-color:#00BBBA;
-            box-shadow: 0 3px 3px #00AAA5;
-            text-decoration:none;
-
-        }
-
-        #myBtn:hover {
-            background: #00AAA5;
-
-        }
-
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-
-        /* Modal Content/Box */
-        .modal-content {
-            background-color: gray;
-            color:#00AAA5;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 380px;
-            height:250px;/* Could be more or less, depending on screen size */
-        }
-
-        /* The Close Button */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-    </style>
-{% endblock %}
 
 
