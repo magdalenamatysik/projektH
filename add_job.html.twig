@@ -8,18 +8,17 @@
 
 {% block body %}
 
+<form action="/addAccept" method="Post">
+<div id="add_job">
 
+ <div class="polel"> nazwa</div> 	<input type="text" class="poler" name="name" >
+ <div class="polel"> opis</div> 	<textarea name="description" class="poler" style="width: 185px;" ></textarea>
+ <div class="polel"> czas</div>		<input type="text" class="poler"  name="duration" >
+ <div class="polel"> deadline </div>	<input type="datetime-local" style="float: left; margin-top: 5px;" name="deadline" >
+ <input type ="submit" class="button" value="dodaj">
 
-            {{form_start(form)}}
-            {{form_widget(form)}}
-            {{form_end(form)}}
-
-
+</div>
+</form>
 
 {% endblock %}
-
-
-
-
-
 

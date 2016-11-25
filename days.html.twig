@@ -1,0 +1,295 @@
+{% extends 'base.html.twig'  %}
+
+
+
+
+{% block body %}
+
+
+
+
+    
+        <div id="harm">
+            <div class="tekst2"><div id="roll" style=" float: left; " onclick="changeList('/harm/-1','harm')" > << </div> {{ days[0] }}.{{ days[1] }} Poniedziałek </div>
+            <div class="tekst2">{{ days[2] }}.{{ days[3] }} Wtorek</div>
+            <div class="tekst2">{{ days[4] }}.{{ days[5] }} Środa</div>
+            <div class="tekst2">{{ days[6] }}.{{ days[7] }} Czwartek</div>
+            <div class="tekst2">{{ days[8] }}.{{ days[9] }} Piątek</div>
+            <div class="tekst2">{{ days[10] }}.{{ days[11] }} Sobota</div>
+            <div class="tekst2">{{ days[12] }}.{{ days[13] }} Niedziela <div id="roll" style=" float: right; " onclick="changeList('/harm/+1','harm')"> >>> </div></div>
+			
+
+            <div class="day" id="mon" ondrop="drop(event)" ondragover="allowDrop(event)">
+            </div>
+            <div class="day" id="tue"  ondrop="drop(event)" ondragover="allowDrop(event)">
+
+            </div>
+            <div class="day" id="wed" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+            </div>
+            <div class="day" id="thu" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+            </div>
+            <div class="day" id="fri" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+            </div>
+            <div class="day" id="sat" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+            </div>
+            <div class="day" id="sun" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+            </div>
+
+		</div>
+
+
+
+  
+    {% block javascript %}
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script>
+
+
+
+            
+
+
+            var div_mon =document.getElementById("mon");
+            var div_tue =document.getElementById("tue");
+            var div_wed =document.getElementById("wed");
+            var div_thu =document.getElementById("thu");
+            var div_fri =document.getElementById("fri");
+            var div_sat =document.getElementById("sat");
+            var div_sun =document.getElementById("sun");
+			
+			div_mon.insertAdjacentHTML('afterbegin', '   <div class ="task"> www </div>');
+
+
+            {% for t in data %}
+
+            if ( {{ days[0] }} == {{ t[0] }} && {{t[2]}}!=3 ) {
+			div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+            }else if ({{ days[0] }} == {{ t[0] }}) {
+					div_mon.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
+			}
+			
+			
+			if ( {{ days[2] }} == {{ t[0] }} && {{t[2]}} !=3 ) {div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+				}else if ({{ days[2] }} == {{ t[0] }}){
+				div_tue.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
+			
+				}
+			
+			
+			if ( {{ days[4] }} == {{ t[0] }} && {{t[2]}} !=3 ) {
+				div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;  height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+            }else if ({{ days[4] }} == {{ t[0] }}){
+				div_wed.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
+			
+			}
+			
+			
+			if ( {{ days[6] }} == {{ t[0] }} && {{t[2]}} !=3) {
+				div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;   height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} </div>  </a>');
+            }else if ({{ days[6] }} == {{ t[0] }}){
+				div_thu.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
+			
+			}
+			
+			if ( {{ days[8] }} == {{ t[0] }} && {{t[2]}} !=3 ) {
+                div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style = "position: relative; height: {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} </div>  </a>');
+
+			}else if ({{ days[8] }} == {{ t[0] }} ){
+				div_fri.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
+			
+			}
+			
+			if ( {{ days[10]}} == {{ t[0] }}  && {{t[2]}} !=3  )   {
+				div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative; height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+            }else if ({{ days[10] }} == {{ t[0] }} ){
+				div_sat.insertAdjacentHTML('afterbegin',  '<div class="blank" style="position: relative; height: {{t[1].duration*20}}px;" ></div>');
+			
+			}
+			if ( {{ days[12]}} == {{ t[0] }} && {{t[2]}} !=3 ) div_sun.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+
+            {% endfor %}
+
+
+
+            currentX =currentY =0;
+            var idJob =0;
+			
+			
+			
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        e.innerHTML = r.responseText;
+                    }
+                }
+            }
+
+            function changeList(adresurl, htmlid)
+            {
+                if (r = xmlHttp) {
+                    e = document.getElementById(htmlid);
+                    
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+
+
+			function addJob(adresurl)
+            {
+                if (r = xmlHttp) {
+                    e = document;
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+			
+            $('form.ajax').on('submit',function () {
+                var that =$(this);
+                url=that.attr('action'),
+                        type= that.attr('method'),
+                        data={};
+
+                that.find('[name]').each(function (index) {
+                    var that= $(this),
+                            name=that.attr('name');
+                    data[name]=that.val();
+                });
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                    }
+
+
+                });
+                return false;
+            })
+
+
+			
+			
+            function allowDrop(ev) {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = "move";
+
+            }
+			var id;
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+				id = ev.target.id;
+
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+
+
+
+                if (ev.ctrlKey)
+                {
+                    var nodeCopy = document.getElementById(data).cloneNode(true);
+                    nodeCopy.id = "newId"; /* We cannot use the same ID */
+					
+					
+					var t = document.createElement('task');
+					ev.target.appendChild(t);
+					
+					var Y = ev.pageY;
+                    ev.target.appendChild(nodeCopy);
+					
+					 
+                }
+                else {
+				
+					var Y = ev.pageY;
+					var X = ev.pageX;
+					
+					ev.target.insertAdjacentHTML('afterbegin', ' <div class="blank" style="position: relative; height: '+ Y +'px;" ></div>');
+					var yz = ev.target.appendChild(document.getElementById(data));
+					
+					addJob('/test/'+Y+'/'+X+'/'+id);
+				
+                   
+                }
+				
+				
+
+            }
+
+
+
+
+            var xmlHttp = createXmlHttpRequestObject();
+
+            function createXmlHttpRequestObject()
+            {
+                var xmlHttp;
+
+                if(window.ActiveXObject)
+                {
+                    try
+                    {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        xmlHttp = new XMLHttpRequest();
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+
+                if(!xmlHttp)
+                    alert("cant create object");
+                else
+                    return xmlHttp;
+
+
+            }
+
+
+            var r;
+            var e;
+
+
+
+
+           
+
+
+        </script>
+
+    {% endblock %}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
