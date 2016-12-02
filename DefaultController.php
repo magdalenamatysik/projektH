@@ -82,7 +82,7 @@ class DefaultController extends Controller
 
         for ($i=0; $i<8; $i++){
 
-            if ($day<32) {
+            if ($day<31) {
                 array_push($days, $day,$month);
                 $day++;
             }else{
@@ -148,19 +148,13 @@ class DefaultController extends Controller
      */
     public function harmAction(Request $request, $week)
     {
-		  $session = $request->getSession();
+		$session = $request->getSession();
         $user = $session->get('user');
-
-        //spradz czy task spradzanie id i flagi (0- task)
-        $jobs = $this->getDoctrine()->getRepository('AppBundle:job')->findBy( array('idUser' => $user->getID(), 'flag'=> 0));
 
 
 		$time= $session->get('mon');
 		
-	
-		
-		$time->modify("{$week} week");
-		
+		$time->modify(" {$week} week");
 		
 		$session->set('mon', $time);
 		
@@ -168,13 +162,12 @@ class DefaultController extends Controller
         $day= $time->format('d');
         $month=$time->format('m');
 		
-		
 
         $days=array();
 
         for ($i=0; $i<8; $i++){
 
-            if ($day<32) {
+            if ($day<31) {
                 array_push($days, $day, $month);
                 $day++;
             }else{
@@ -216,16 +209,37 @@ class DefaultController extends Controller
         }
 
 
-        return $this->render('default/days.html.twig',array('user' => $user, 'days' => $days,  'meets'=>$meets, 'data'=> $a));
+        return $this->render('default/days.html.twig',array('user' => $user, 'days' => $days,   'data'=> $a));
     
 		
 		
         
     }
 	
-	
-	
-	
+	/**
+     * @Route("/return/{id}", name="return")
+     */
+    public function returnAction(Request $request,  $id)
+    {
+		$session = $request->getSession();
+        $user = $session->get('user');
+		
+		$job = $this->getDoctrine()->getRepository('AppBundle:job')->findOneBy( array('idUser' => $user->getID(), 'id'=> $id));
+		$job->setFlag(0);
+		
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($job);
+		$em->flush();
+		
+		//$jobs = $this->getDoctrine()->getRepository('AppBundle:job')->findBy( array('idUser' => $user->getID(), 'flag'=> 0));
+
+		 return $this->redirectToRoute('harmonogram');
+
+			
+		//return $this->render('default/jobList.html.twig',array('user' => $user, 'jobs' => $jobs));
+  
+		
+	}
 	/**
      * @Route("/test/{y}/{x}/{id}", name="test")
      */
@@ -397,21 +411,47 @@ class DefaultController extends Controller
            $user = $session->get('user');
 
            $job->setIdUser($user->getId());
-
+		   
            $s= $_POST['deadline'];
            $data = new \DateTime($s);
+			$job->setName($_POST['name']);
+			$job->setDescription($_POST['description']);
+			$job->setFlag(1);
+			$em = $this->getDoctrine()->getManager();
+			
+			$job->setTime($data);
+			$job->setDuration(intval($_POST['duration']));
+			$job->setTime2($job->getTime());
+			
+			$em->persist($job);
+			$em->flush();
+			$em->clear();
+			$r='s';
+			if (isset($_POST['regular'])) $r=$_POST['regular'];
+		  
+		   if ($r == 'reg'){
+			   for ($i=0; $i <5 ; $i++){
+				   
+				   $job2= new job();
+				   $job2= $job;
+				   
+					$data->modify("+ 1 week");
+					$job2->setTime($data);
+					$job2->setTime2($job2->getTime());
+					
+					
+					$em->persist($job2);
+					$em->flush();
+					$em->clear();
+				   
+			   }
+			   
+		   }		
+					
+				
 
-           $job->setTime($data);
-           $job->setDescription($_POST['description']);
-           $job->setName($_POST['name']);
-           $job->setDuration(intval($_POST['duration']));
-
-           $job->setTime2($job->getTime());
-           $job->setFlag(1);
-
-           $em = $this->getDoctrine()->getManager();
-           $em->persist($job);
-           $em->flush();
+				
+				
 
            echo "sie".$_POST['deadline'];
            return $this->redirectToRoute('harmonogram');

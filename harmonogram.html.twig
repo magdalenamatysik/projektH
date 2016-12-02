@@ -162,15 +162,18 @@
             {% for t in data %}
 
             if ( {{ days[0] }} == {{ t[0] }} && {{days[1]}} == {{t[3]}} ) {
-				if ( {{ t[2] }} == 1 ) div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
-				if ( {{t[2]}} == -1) div_mon.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
-				if ( {{ t[2] }} == 2 ) div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}" > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
-		
+				if ( {{ t[2] }} == 1 ) {
+					div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
+				
+				}if ( {{t[2]}} == -1) div_mon.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
+				if ( {{ t[2] }} == 2 ) {
+					div_mon.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}" > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
+				}
 			}
 			
 			
 			if ( {{ days[2] }} == {{ t[0] }} && {{days[3]}} == {{t[3]}} ) {
-				if ( {{ t[2] }} == 1 ) div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[1].flag }} {{t[2]}} </div>  </a>');
+				if ( {{ t[2] }} == 1 ) div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 				if ( {{t[2]}} == -1) div_tue.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
 				if ( {{ t[2] }} == 2 ) div_tue.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
 		
@@ -178,7 +181,7 @@
 			
 			
 			if ( {{ days[4] }} == {{ t[0] }} &&  {{days[5]}} == {{t[3]}} ) {
-				if ( {{ t[2] }} == 1 ) div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[1].flag }} {{t[2]}} </div>  </a>');
+				if ( {{ t[2] }} == 1 ) div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 				if ( {{t[2]}} == -1) div_wed.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
 				if ( {{ t[2] }} == 2 ) div_wed.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
 		
@@ -186,27 +189,27 @@
 			
 			
 			if ( {{ days[6] }} == {{ t[0] }} && {{days[7]}} == {{t[3]}} ) {
-				if ( {{ t[2] }} == 1 ) div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[1].flag }} {{t[2]}} </div>  </a>');
+				if ( {{ t[2] }} == 1 ) div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 				if ( {{t[2]}} == -1) div_thu.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
 				if ( {{ t[2] }} == 2 ) div_thu.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
 		
 			}
 			
 			if ( {{ days[8] }} == {{ t[0] }} && {{days[9]}} == {{t[3]}} ) {
-            	if ( {{ t[2] }} == 1 ) div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[1].flag }} {{t[2]}} </div>  </a>');
+            	if ( {{ t[2] }} == 1 ) div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 				if ( {{t[2]}} == -1) div_fri.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
 				if ( {{ t[2] }} == 2 ) div_fri.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
 		
 			}
 			
 			if ( {{ days[10]}} == {{ t[0] }}  &&  {{days[11]}} == {{t[3]}} )   {
-				if ( {{ t[2] }} == 1 ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[1].flag }} {{t[2]}} </div>  </a>');
+				if ( {{ t[2] }} == 1 ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 				if ( {{t[2]}} == -1) div_sat.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
 				if ( {{ t[2] }} == 2 ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
 		
 			}
 			if ( {{ days[12]}} == {{ t[0] }} && {{days[12]}} == {{t[3]}}){
-				if ( {{ t[2] }} == 1 ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }} {{ t[1].flag }} {{t[2]}} </div>  </a>');
+				if ( {{ t[2] }} == 1 ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}"  > <div class ="task" style ="position: relative;     height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E">{{ t[1].name }}  </div>  </a>');
 				if ( {{t[2]}} == -1) div_sat.insertAdjacentHTML('afterbegin',  '<div class="blank" style="height: {{t[1].duration*20}}px;" ></div>');
 				if ( {{ t[2] }} == 2 ) div_sat.insertAdjacentHTML('afterbegin', '   <a href="/show/{{ t[1].id }}" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  > <div class ="task" style ="height:  {{ t[1].duration*20 }}px; background-color: #F7EC66">{{ t[1].name }}  </div>  </a>');
 		
@@ -226,19 +229,35 @@
                     if (r.status == 200 || r.status == 304) {
                         
 						
-						e.innerHTML = r.response;
-						
+						e.innerHTML = r.response;  
+					
                     }
                 }
             }
 
+			function odbierzDane2()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;  
+						var codes = e.getElementsByTagName("script");   
+						for(var i=0;i<codes.length;i++)  
+						{  
+							eval(codes[i].text);  
+						}  
+                    }
+                }
+            }
+			
             function changeList(adresurl, htmlid)
             {
                 if (r = xmlHttp) {
                     e = document.getElementById(htmlid);
                     
                     r.open('GET', adresurl);
-                    r.onreadystatechange = odbierzDane;
+                    r.onreadystatechange = odbierzDane2;
                     r.send(null);
                 }
             }
@@ -281,7 +300,7 @@
 
 
 			
-			
+			var job;
             function allowDrop(ev) {
                 ev.preventDefault();
                 ev.dataTransfer.dropEffect = "move";
@@ -291,14 +310,16 @@
             function drag(ev) {
                 ev.dataTransfer.setData("text", ev.target.id);
 				id = ev.target.id;
+				job = ev.tagret;
 				
-				 p = ev.position;
+				var t = document.createElement('.blank');
 				
-				var t = document.createElement('blank');
-				p.appendChild(t);
+				
 
             }
 
+			var test;
+			
             function drop(ev) {
                 ev.preventDefault();
                 var data = ev.dataTransfer.getData("text");
@@ -327,19 +348,24 @@
 					var z = 0;
 					var y = Y-360;
 					
-					data2 = $(ev.target).closest('.day').find('.task');
-					data3 = $(ev.target).closest('.day').find('.blank');
+					if (Y<360){
+						addJob('/return/'+id);
+						var yz = ev.target.appendChild(document.getElementById(data));
+						
+					}else{
 					
-					k = data2.height();
-					z = data3.height();
 					
-					var t = y -(k+z);
 					
-					ev.target.insertAdjacentHTML('beforeend', ' <div class="blank" style="position: relative; height: '+ t +'px;" >   </div>');
+					
+					console.log($(ev.target).class);
+					var t = y;
+					if (t<0) t = y;
+					
+					ev.target.insertAdjacentHTML('beforeend', ' <div class= "blank" style="position: relative; height: '+ t +'px;" > </div>');
 					var yz = ev.target.appendChild(document.getElementById(data));
 					
 					addJob('/test/'+y+'/'+X+'/'+id);
-				
+					}
                    
                 }
 				
