@@ -6,17 +6,19 @@
         {% block stylesheets %}
 
             <style>
+@media (min-width: 460px) {
 
 
                 #container
                 {
-                    width: 1400px;
+                    width: auto;
                     height: 900px;
-                    margin-left: auto;
-                    margin-right: auto;
+                    margin-left: 10px;
+                   
                     margin-top: 5px;
                     text-align: center;
                     font-size:10px;
+					
 
                 }
 
@@ -32,19 +34,23 @@
 
                 #menu{
                     float: left;
-                    width: 400px;
-                    height: 300px;
+                    width: 20%;
+                    height: 200px;
+					margin-right: 1%;
+					
 
                 }
 
                 #user_panel{
 
-                    width: 385px;
-                    height: 135px;
-                    margin: 10px;
+                    width: 100%;
+                    height: 20%;
                     background-color: #48D1CC;
-                    margin-left:15px;
-
+                    font-size: 25px;
+					color: white;
+					text-align: center;
+                    float: left;
+                    font-family: 'Josefin Sans', sans-serif;
                 }
 
                 #user_panel:hover
@@ -54,38 +60,38 @@
 
 
                 #tekst{
-                    width: 185px;
+                    width: auto;
                     height: 100px;
                     text-align: center;
                     float: left;
                     font-family: 'Josefin Sans', sans-serif;
-                    font-size: 25px;
+                    font-size: 15px;
                     color: white;
-                    padding-top: 50px;
+                    padding-top: 50%;
                 }
 
 
                 #tekstt{
-                    width: 380px;
+                    width: auto;
                     height: 100px;
                     text-align: center;
                     font-family: 'Josefin Sans', sans-serif;
-                    font-size: 30px;
+                    font-size: 15px;
                     color: white;
-                    padding-top: 35px;
+                  
 
                 }
 
 
                 #add_meet{
 
-                    width: 300px;
-                    height: 220px;
+                    width: 50%;
+                    height: 160px;
                     margin: auto;
-                    margin-top: 20px;
+                    margin-top: 10px;
                     padding-top: 10px;
-                    background-color: #a6dd5d;
-                    font-family: 'Josefin Sans', sans-serif;
+                   background-color: #a6dd5d;
+					font-family: 'Josefin Sans', sans-serif;
                     font-size: 20px;
                     color: white;
 
@@ -94,10 +100,10 @@
 
                 #add_job{
 
-                    width: 300px;
-                    height: 220px;
+                    width: 50%;
+                    height: 160px;
                     margin: auto;
-                    margin-top: 20px;
+                    margin-top: 10px;
                     padding-top: 10px;
                     background-color: #F7EC66;
                     font-family: 'Josefin Sans', sans-serif;
@@ -110,11 +116,18 @@
 
                 #add_meetbox{
 
-                    width: 185px;
-                    height: 135px;
-                    margin-left:15px;
+                    width: 100%;
+                    height: 23%;
+                    
+					margin-top: 5px;
                     background-color: #a6dd5d;
+					text-align: center;
                     float: left;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 25px;
+                    color: white;
+                 
+                 
 
                 }
 
@@ -139,14 +152,16 @@
                 }
 
 
+				
 
+				
                 #list{
 
                     float: left;
-                    width: 975px;
-                    height: 280px;
-                    margin:10px;
-                    background-color: #666666;
+                    width: 79%;
+                    height: 200px;
+                    
+                    background-color: #777777;
                     overflow: auto;
                     color:black;
 
@@ -155,10 +170,10 @@
                 .listcolumn{
 
                     float: left;
-                    width: 190px;
-                    height: 280px;
+                    width: 18%;
+                    height: 200px;
 
-                    background-color: #666666;
+                    background-color: #777777;
 
                     color:black;
 
@@ -167,25 +182,51 @@
                 #harm
                 {
                     float: left;
-                    width: 1380px;
+                    width: 100%;
+					
                     height: 485px;
-                    margin: 10px;
-
-
 
                 }
 
 
                 .day{
-                    float: left;
-                    width: 185px;
+                   float: left;
+					width: 13%;
                     height: 480px;
                     margin: 5px;
                     background-color: #777777;
+					position: relative;
 
                 }
 
                 .task{
+                    float: left;
+                    width: 95%;
+					align: center;
+                    background-color:#F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+					
+                    text-align: inherit;
+                    color: gray;
+                }
+
+				.friend{
+                    
+                    width: 100px;
+					height: 100px;
+					margin: 5px;
+					
+                    background-color:#F7EC77;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+					float: left;
+					
+                    text-align: inherit;
+                    color: gray;
+                }
+				
+				.taskDrag{
                     float: left;
                     width: 180px;
                     
@@ -195,8 +236,9 @@
                     font-size: 20px;
                     text-align: inherit;
                     color: gray;
+					opacity:0.5;
                 }
-
+				
 				
 				.blank{
                     
@@ -213,9 +255,10 @@
 				.roll{
                     
                    width: 30px;
-				   height: 30px;
+				   height: 15px;
                    float: left;
-				   background-color: blue;
+				    margin-left: 30%;
+					color: white;
                    
                 }
 				
@@ -226,13 +269,15 @@
 
                 .tekst2{
 
-                    float: left;
-                    width: 185px;
+                    
+                    width: 90%;
                     margin: 5px;
+					margin-left: auto;
+					margin-right: auto;
                     background-color:#999999;
                     text-align: center;
                     font-family: 'Josefin Sans', sans-serif;
-                    font-size: 20px;
+                    font-size: 15px;
                     color: white;
                     text-decoration: underline ;
 
@@ -293,7 +338,7 @@
 
                     height: 20px;
                     text-align: center;
-                    width: 100px;
+                    width: 40%;
                     font-family: 'Josefin Sans', sans-serif;
                     font-size: 20px;
                     color: white;
@@ -306,9 +351,9 @@
 
                 .poler{
 
-                    height: 30px;
+                    height: 20px;
                     text-align: center;
-                    width: 190px;
+                    width: 40%;
                     font-family: 'Josefin Sans', sans-serif;
                     font-size: 20px;
                     color: black;
@@ -322,17 +367,17 @@
 
 
                 .button{
-                    width: 160px;
-                    height: 30px;
+                    width: 100px;
+                    height: 20px;
                     font-family: 'Josefin Sans', sans-serif;
-                    font-size: 18px;
+                    font-size: 10px;
                     text-align: center;
                     color: white;
                     float: right;
                     background-color:#999999;
                     box-shadow: 0 3px 3px #888888;
                     text-decoration:none;
-                    margin-top: 10px;
+                     margin-top: 5px;
                     margin-right: 27px;
                     margin-bottom: 10px;
 
@@ -400,6 +445,437 @@
                     cursor: pointer;
                 }
 
+				
+
+			}
+			
+			@media (max-width: 460px) {
+
+
+                #container
+                {
+                    width: auto;
+                    height: 900px;
+                    margin-left: 10px;
+                   
+                    margin-top: 5px;
+                    text-align: center;
+                    font-size:10px;
+					
+
+                }
+
+
+
+
+                body{
+                    background-color: 	#666666;
+                    font-family: 'Lato', sans-serif;
+                    font-size:10px;
+                }
+
+
+                #menu{
+                    
+                    width: 100%;
+                    height: 50px;
+					margin-right: 1%;
+					
+
+                }
+
+                #user_panel{
+
+                    width: 40%;
+                    height: 100%;
+                    background-color: #48D1CC;
+					float: left;
+                    
+
+                }
+
+                #user_panel:hover
+                {
+                    background-color: #37c0bb;
+                }
+
+
+                #tekst{
+                    width: auto;
+                    height: 100px;
+                    text-align: center;
+                    float: left;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+                    color: white;
+                    padding-top: 50%;
+                }
+
+
+                #tekstt{
+                    width: auto;
+                    height: 100px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+                    color: white;
+                    padding-top: 5px;
+
+                }
+
+
+                #add_meet{
+
+                    width: 100%;
+                    height: 315px;
+                    margin: auto;
+                    margin-top: 10px;
+                    padding-top: 10px;
+                   background-color: #a6dd5d;
+					font-family: 'Josefin Sans', sans-serif;
+                    font-size: 9px;
+                    color: white;
+
+                }
+
+
+                #add_job{
+
+                    width: 100%;
+                    height: 250px;
+                    margin: auto;
+                    margin-top: 10px;
+                    padding-top: 10px;
+                    background-color: #F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+
+                }
+
+
+
+                #add_meetbox{
+
+                    width: 22%;
+                    height: 100%;
+                    
+					margin-left: 5px;
+                    background-color: #a6dd5d;
+					text-align: center;
+                   float: left;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+					
+                    color: white;
+                 
+                 
+
+                }
+
+                #add_meetbox:hover
+                {
+                    background-color: #a6dd5d;
+                }
+
+
+
+
+                #job{
+                    width: 300px;
+                    height: 250px;
+                    margin: auto;
+                    margin-top: 20px;
+                    padding-top: 10px;
+                    background-color: #F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+                }
+
+
+
+                #list{
+
+                    float: left;
+                    width: 40%;
+                    height: 485px;
+                    
+                    background-color: #666666;
+                    overflow: auto;
+                    color:black;
+
+                }
+
+                .listcolumn{
+
+                    float: left;
+                    width: 80%;
+                    height: 485px;
+
+                    background-color: #666666;
+
+                    color:black;
+
+                }
+
+                #harm
+                {
+                    float: left;
+                    width: 50%;
+                    height: 485px;
+                   
+
+
+
+                }
+
+
+                .day{
+                   float: left;
+                 
+                    height: 480px;
+                    margin: 5px;
+					margin-top: 0px;
+                    background-color: #777777;
+					position: relative;
+
+                }
+
+                .task{
+                    float: left;
+                    width: 100%;
+					
+                    background-color:#F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                   
+					
+                    text-align: inherit;
+                    color: gray;
+                }
+
+				.taskDrag{
+                    float: left;
+                    width: 180px;
+                    
+
+                    background-color:#F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    text-align: inherit;
+                    color: gray;
+					opacity:0.5;
+                }
+				
+				
+				.blank{
+                    
+                    width: 180px;
+                   float: left;
+					
+                   
+                    font-family: 'Josefin Sans', sans-serif;
+                
+                   
+                }
+				
+				
+				.roll{
+                    
+                   width: 30px;
+				   height: 15px;
+                   float: left;
+				 margin-left: 10%;
+					color: white;
+                   
+                }
+				
+
+                .task:hover{
+                    background-color:#e6db55;
+                }
+
+                .tekst2{
+
+                    
+                    width: 90%;
+                    margin: 5px;
+					margin-left: auto;
+					margin-right: auto;
+                    background-color:#999999;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 15px;
+                    color: white;
+                    text-decoration: underline ;
+
+                }
+
+                .tekst3{
+                    width: 380px;
+                    height: 40px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: white;
+                    margin-bottom: 10px;
+                    background-color:#00BBBA;
+                }
+
+                .tekst4{
+                    width: 150px;
+                    height: 40px;
+                    text-align: right;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+                    margin-top: 72px;
+                    float: left;
+
+                }
+                .tekst5{
+
+                    height: 30px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: #ffffff;
+                    margin-bottom: 30px;
+
+                }
+
+                #logframe{
+                    width: 380px;
+                    height: 250px;
+
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: white;
+                    background-color: #00CCCB;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-top: 200px;
+
+
+                }
+
+
+                .polel{
+
+
+                    height: 20px;
+                    text-align: center;
+                   
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+					
+					margin-top: 8px;
+					
+
+
+                }
+
+                .poler{
+
+                    height: 20px;
+                    text-align: left;
+                    width: 80%;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: black;
+					margin-top: 7px;
+					
+
+
+                }
+
+
+
+                .button{
+                    width: 70%;
+                    height: 20px;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+                    text-align: center;
+                    color: white;
+                    float: right;
+                    background-color:#999999;
+                    box-shadow: 0 3px 3px #888888;
+                    text-decoration:none;
+                     margin-top: 5px;
+                    margin-right: 27px;
+                    margin-bottom: 10px;
+
+                }
+
+                a.button:hover {
+                    background: #888888;
+
+                }
+                #myBtn{
+                    width: 100px;
+                    height: 30px;
+                    margin-left:auto;
+                    margin-right:auto;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 18px;
+                    color: white;
+                    background-color:#00BBBA;
+                    box-shadow: 0 3px 3px #00AAA5;
+                    text-decoration:none;
+
+                }
+
+                #myBtn:hover {
+                    background: #00AAA5;
+
+                }
+
+                .modal {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                    background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                }
+
+                /* Modal Content/Box */
+                .modal-content {
+                    background-color: gray;
+                    color:#00AAA5;
+                    margin: 15% auto; /* 15% from the top and centered */
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 380px;
+                    height:250px;/* Could be more or less, depending on screen size */
+                }
+
+                /* The Close Button */
+                .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+
+                .close:hover,
+                .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+				
+
+			}
+				
             </style>
 
 
@@ -417,8 +893,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 
-        <link rel="stylesheet" href="css/fontello.css" type="text/css" />
-
         <link href='http://fonts.googleapis.com/css?family=Lato|Josefin+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
 
@@ -426,7 +900,7 @@
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-        <script src="..."> </script>
+        
 
         {% endblock %}
     </body>

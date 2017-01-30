@@ -10,6 +10,7 @@ use AppBundle\Form\UserType;
 use AppBundle\Form\login;
 use AppBundle\Entity\user;
 use AppBundle\Entity\job;
+use AppBundle\Entity\Relation;
 use AppBundle\Form\add_job;
 use AppBundle\Form\addMeet;
 use AppBundle\Form\show;
@@ -30,8 +31,9 @@ class DefaultController extends Controller
         $form = $this->createForm(login::class, $user);
 
         $session = new Session();
-		$time = strtotime("last Monday");
+		$time = strtotime("now");
 		$time2 = new \DateTime (date("Y-m-d",$time));
+		
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,7 +41,9 @@ class DefaultController extends Controller
             $userp = $this->getDoctrine()->getRepository('AppBundle:user')
                 ->findOneBy( array('login' => $user->getLogin()));
             $session->set('user',  $userp);
+			
 			$session->set('mon', $time2);
+			
 
             if( password_verify($user->getPassword(),$userp->getPassword())){
 
@@ -68,7 +72,7 @@ class DefaultController extends Controller
 
         //spradz czy task spradzanie id i flagi (0- task)
         $jobs = $this->getDoctrine()->getRepository('AppBundle:job')->findBy( array('idUser' => $user->getID(), 'flag'=> 0));
-
+		//$ingredients = $this->getDoctrine()->getRepository('AppBundle:ingredients')->findBy( array('id' => 1));
 
 		$time= $session->get('mon');
 		
@@ -82,15 +86,15 @@ class DefaultController extends Controller
 
         for ($i=0; $i<8; $i++){
 
-            if ($day<31) {
-                array_push($days, $day,$month);
+            if ($day<32) {
+                array_push($days, $day.".".$month);
                 $day++;
             }else{
                 $day=1;
                 $month++;
             }
         }
-
+		
 
         $a=array();
 
@@ -104,22 +108,8 @@ class DefaultController extends Controller
 
         for ($i=0; $i<sizeof($meets)-1; $i++){
 			$job = new job();
-			array_push($a, array($meets[$i]->getTime()->format('d'),$meets[$i], $meets[$i]->getFlag() ,$meets[$i]->getTime()->format('m')));
-
-               if($meets[$i]->getTime()->format('d')==$meets[$i+1]->getTime()->format('d')) {
-				   
-					$r =$meets[$i]->getTime()->format('G')-$meets[$i+1]->getTime2()->format('G');
-					
-					$job->setDuration($r);
-					
-					array_push($a, array($meets[$i]->getTime()->format('d'),$job, -1,$meets[$i]->getTime()->format('m')));
-			   }
-            else{
-					$r =$meets[$i]->getTime()->format('G');
-					
-					$job->setDuration($r);
-					array_push($a, array($meets[$i]->getTime()->format('d'),$job, -1 , $meets[$i]->getTime()->format('m')));
-            }
+			$r = $meets[$i]->getTime()->format('G')*20+$meets[$i]->getTime()->format('m');
+			array_push($a, array($meets[$i]->getTime()->format('d'),$meets[$i], $meets[$i]->getFlag() ,$meets[$i]->getTime()->format('m'), $r));
 
            
         }
@@ -132,6 +122,18 @@ class DefaultController extends Controller
     }
 
 
+	/**
+     * @Route("/harmonogram/logout", name="logout")
+     */
+    public function logOutAction(Request $request )
+    {
+		$request->getSession()->clear();
+		
+		return $this->redirectToRoute('homepage' );
+		
+	}
+	
+	
     /**
      * @Route("/add", name="add")
      */
@@ -154,7 +156,7 @@ class DefaultController extends Controller
 
 		$time= $session->get('mon');
 		
-		$time->modify(" {$week} week");
+		$time->modify(" {$week} day");
 		
 		$session->set('mon', $time);
 		
@@ -168,7 +170,7 @@ class DefaultController extends Controller
         for ($i=0; $i<8; $i++){
 
             if ($day<31) {
-                array_push($days, $day, $month);
+                array_push($days, $day.".".$month);
                 $day++;
             }else{
                 $day=1;
@@ -189,22 +191,9 @@ class DefaultController extends Controller
 
         for ($i=0; $i<sizeof($meets)-1; $i++){
 			$job = new job();
-			array_push($a, array($meets[$i]->getTime()->format('d'),$meets[$i], $meets[$i]->getFlag() ,$meets[$i]->getTime()->format('m')));
+			$r = $meets[$i]->getTime()->format('G')*20+$meets[$i]->getTime()->format('m');
+			array_push($a, array($meets[$i]->getTime()->format('d'),$meets[$i], $meets[$i]->getFlag() ,$meets[$i]->getTime()->format('m'), $r));
 
-               if($meets[$i]->getTime()->format('d')==$meets[$i+1]->getTime()->format('d')) {
-				   
-					$r =$meets[$i]->getTime()->format('G')-$meets[$i+1]->getTime2()->format('G');
-					
-					$job->setDuration($r);
-					
-					array_push($a, array($meets[$i]->getTime()->format('d'),$job, -1,$meets[$i]->getTime()->format('m')));
-			   }
-            else{
-					$r =$meets[$i]->getTime()->format('G');
-					
-					$job->setDuration($r);
-					array_push($a, array($meets[$i]->getTime()->format('d'),$job, -1 , $meets[$i]->getTime()->format('m')));
-            }
            
         }
 
@@ -258,104 +247,27 @@ class DefaultController extends Controller
 		$year =$time->format('Y');
 		
 		
-		if ($x>70 && $x<250){
+		$day_array = explode(".",$x);
+		
 			$data = new \DateTime();
-			$data->setDate($year,$month,$day);
+			$data->setDate($year,$day_array[1],$day_array[0]);
 			$data->setTime($y/20,0);
-			$job->setTime($data);
-			$time2 = new \DateTime($job->getTime3());
-            $time2->modify("+ {$job->getDuration()} hour");
-
-            $job->setTime2($time2);
 			
-			$job->setFlag(2);	
-		}
-		if ($x>255 && $x<435){
-			$data = new \DateTime();
-			$data->setDate($year,$month,$day+1);
-			$data->setTime($y/20,0);
 			$job->setTime($data);
 			
 			$time2 = new \DateTime($job->getTime3());
             $time2->modify("+ {$job->getDuration()} hour");
 
             $job->setTime2($time2);
-		
-			$job->setFlag(2);	
-		}
-		
-		if ($x>440 && $x<620){
-			$data = new \DateTime();
-			$data->setDate($year,$month,$day+2);
-			$data->setTime($y/20,0);
-			$job->setTime($data);
 			
-			$time2 = new \DateTime($job->getTime3());
-            $time2->modify("+ {$job->getDuration()} hour");
-
-            $job->setTime2($time2);
-		
 			$job->setFlag(2);	
-		}
 		
-		if ($x>625 && $x<805){
-			$data = new \DateTime();
-			$data->setDate($year,$month,$day+3);
-			$data->setTime($y/20,0);
-			$job->setTime($data);
-			
-			$time2 = new \DateTime($job->getTime3());
-            $time2->modify("+ {$job->getDuration()} hour");
-
-            $job->setTime2($time2);
 		
-			$job->setFlag(2);	
-		}
-		if ($x>810 && $x<990){
-			$data = new \DateTime();
-			$data->setDate($year,$month,$day+4);
-			$data->setTime($y/20,0);
-			$job->setTime($data);
-			
-			$time2 = new \DateTime($job->getTime3());
-            $time2->modify("+ {$job->getDuration()} hour");
-
-            $job->setTime2($time2);
-		
-			$job->setFlag(2);	
-		}
-		
-		if ($x>995 && $x<1175){
-			$data = new \DateTime();
-			$data->setDate($year,$month,$day+5);
-			$data->setTime($y/20,0);
-			$job->setTime($data);
-			
-			$time2 = new \DateTime($job->getTime3());
-            $time2->modify("+ {$job->getDuration()} hour");
-
-            $job->setTime2($time2);
-		
-			$job->setFlag(2);	
-		}
-		
-		if ($x>1175 && $x<1360){
-			$data = new \DateTime();
-			$data->setDate($year,$month,$day+6);
-			$data->setTime($y/20,0);
-			$job->setTime($data);
-			
-			$time2 = new \DateTime($job->getTime3());
-            $time2->modify("+ {$job->getDuration()} hour");
-
-            $job->setTime2($time2);
-		
-			$job->setFlag(2);	
-		}
 		
 			$em = $this->getDoctrine()->getManager();
-			$em->persist($job);
+			$id = $em->persist($job);
 			$em->flush();
+			
 		return $this->redirectToRoute('harmonogram');
 			
     }
@@ -461,6 +373,81 @@ class DefaultController extends Controller
 
 
     }
+	/**
+     * @Route("/findFriend", name="findFriend")
+     */
+    public function findFriendAction(Request $request)
+    {
+
+       if(isset($_POST['name'])){
+           $userFriend = new user();
+           $session = $request->getSession();
+           $user = $session->get('user');
+
+		   $userFriendName = $_POST['name'];
+		   
+           $friend = $this->getDoctrine()->getRepository('AppBundle:user')->findBy(array('login' => $userFriendName));
+	   }
+	   
+	   
+       $session = $request->getSession();
+       $user = $session->get('user');
+	   
+	   //$friend = $this->getDoctrine()->getRepository('AppBundle:user')->findAll();
+        
+       return $this->render('default/friendFind.html.twig',array('user' => $user, 'friend' =>$friend));
+
+
+    }
+	
+	
+	/**
+     * @Route("/findedFriend", name="findedFriend")
+     */
+    public function findedFriendAction(Request $request)
+    {
+
+       if(isset($_POST['name'])){
+           $userFriend = new user();
+           $session = $request->getSession();
+           $user = $session->get('user');
+
+		   $userFriendName = $_POST['name'];
+		   
+           $friend = $this->getDoctrine()->getRepository('AppBundle:user')->findBy(array('login' => $userFriendName));
+	   }
+        return $this->redirectToRoute('friend');
+
+
+    }
+
+	/**
+     * @Route("/addFriend/{login}", name="addFriend")
+     */
+    public function addFriendAction(Request $request, $login)
+    {
+
+			$relation = new relation();
+          
+           $session = $request->getSession();
+           $user = $session->get('user');
+
+			$em = $this->getDoctrine()->getManager();
+		   
+           $friend = $this->getDoctrine()->getRepository('AppBundle:user')->findOneBy(array('login' => $login));
+		   $relation->setIdUser2($friend->getID());
+		   $relation->setIdUser($user->getID());
+		   $relation->setAccept(0);
+		   
+					$em->persist($relation);
+					$em->flush();
+					$em->clear();
+	   
+        return $this->redirectToRoute('friend');
+
+
+    }
+
 
 	
     /**
@@ -473,37 +460,98 @@ class DefaultController extends Controller
         return $this->render('default/addMeet.html.twig');
     }
 
+	 /**
+     * @Route("/friend", name="friend")
+     */
+    public function friendAction(Request $request)
+    {
+       $session = $request->getSession();
+       $user = $session->get('user');
+	   
+	  // $friends = $this->getDoctrine()->getRepository('AppBundle:Relation')->findBy(array('idUser' => $user->getId(),'idUser2' => $user->getId()));
+       
+	   
+	   $em = $this->getDoctrine()->getManager();
+	   $query =$em->createQuery(
+			'SELECT user
+			FROM AppBundle:User user
+			JOIN AppBundle:Relation r
+			WHERE r.idUser = :DD
+			AND r.idUser2=user.id 
+			OR r.idUser2 = :DD
+			AND r.idUser=user.id '
+			)->setParameter('DD', $user->getId());
+	   
+	   $friends = $query->getResult();
+	   
+	   
+       return $this->render('default/friend.html.twig',array('user' => $user, 'friends' => $friends));
+    }
+	
+	 /**
+     * @Route("/findTask", name="findTask")
+     */
+    public function findTaskAction(Request $request)
+    {
+		$session = $request->getSession();
+        $user = $session->get('user');
 
-
-    /**
-     * @Route("/show/{id}", name="show")
+        //spradz czy task spradzanie id i flagi (0- task)
+        $jobs = $this->getDoctrine()->getRepository('AppBundle:job')->findBy( array('idUser' => $user->getID(), 'flag'=> 0));
+		return $this->render('default/Task.html.twig',array('user' => $user, 'jobs' => $jobs));
+		
+	}
+	
+	
+	/**
+     * @Route("/showAccept/{id}", name="showA")
      */
     public function showAction($id, Request $request)
     {
-        $job = $this->getDoctrine()->getRepository('AppBundle:job')->find($id);
-        $form = $this->createForm(show::class, $job);
+		
+		$job = $this->getDoctrine()->getRepository('AppBundle:job')->find($id);
+      
+		$data = $job->getTime()->format('Y-m-d H:i:s');
+		
+		return $this->render('default/show.html.twig',array('name' => $job->getName(),'description'=>$job->getDescription(), 'duration'=>$job->getDuration(), 'data' => $data , 'id' => $id));
+    
+	}
+    /**
+     * @Route("/show/{id}", name="show")
+     */
+    public function showAcceptAction($id, Request $request)
+    {
+		$job = $this->getDoctrine()->getRepository('AppBundle:job')->find($id);
+      
+        if(isset($_POST['name'])){
+           
+           $session = $request->getSession();
+           $user = $session->get('user');
 
-        $session = $request->getSession();
-        $user = $session->get('user');
+           $s= $_POST['deadline'];
+           $data = new \DateTime($s);
+		   $job->setName($_POST['name']);
+			$job->setDescription($_POST['description']);
+			
+			$em = $this->getDoctrine()->getManager();
+			
+			$job->setTime($data);
+			$job->setDuration(intval($_POST['duration']));
+			$job->setTime2($job->getTime());
+		
+			
+				$em->persist($job);
+				$em->flush();
+				$em->clear();
+			
+					
+				
+		}
+				
+				
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            if($job->getFlag()==1){
-                $time2 = new \DateTime($job->getTime3());
-                $time2->modify("+ {$job->getDuration()} hour");
-
-                $job->setTime2($time2);
-            }
-            $em->persist($job);
-            $em->flush();
-
-
-            return $this->redirectToRoute('harmonogram');
-
-        }
-        return $this->render('default/show.html.twig',array('form' => $form->createView(),'user' => $user , 'jobID' => $job->getID()));
+           echo "sie".$_POST['deadline'];
+           return $this->redirectToRoute('harmonogram');
     }
 
 

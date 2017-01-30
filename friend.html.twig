@@ -16,9 +16,9 @@
 
             <a href="/harmonogram/logout" style="text-decoration: none" >
                 <div id ="user_panel">
-                   
+                
                         Hej, {{ user.login }}
-                    
+                
 
                 </div>
             </a>
@@ -56,17 +56,30 @@
         </div>
 
         <div id="list" >
-		
-
-          
+          		
+		<div class="polel" style="width: 120px;" > Wiadomość </div> 	<textarea name="description" class="poler" style="width: 200px; height: 150px; float: clear;" ></textarea>
+		<input  class="button" onclick="changeList('/findTask', 'list')" style="width: 120px;"value="wybierz zadanie">
+		<input type ="submit" class="button" value="wyslij">
 
         </div>
 
+		<form action="/findFriend" method="Post">
+			
 
-		<div class="roll"  onclick="changeList('/harm/-1','harm')" > <<< </div> 
-		<div class="roll"  onclick="changeList('/harm/+1','harm')"> >>> </div>
+			<div class="polel"> szukaj znajomych </div> <input type="text" class="poler" name="name" >
+		
+			<input type ="submit" class="button" value="szukaj">
+
+		</form>
+		
 		
         <div id="harm">
+ 
+ 
+
+
+ 
+ 
  
 
         </div>
@@ -84,7 +97,7 @@
 
         <script>
 
-		
+		var z;
 		
 			 function odbierzDane()
             {
@@ -94,158 +107,6 @@
 						
 						e.innerHTML = r.response;
 						
-                    }
-                }
-            }
-
-            function changeList(adresurl, htmlid)
-            {
-			 
-			
-                if (r = xmlHttp) {
-                    e = document.getElementById(htmlid);
-                    
-                    r.open('GET', adresurl);
-                    r.onreadystatechange = odbierzDane;
-                    r.send(null);
-                }
-            }
-		
-
-          
-
-          
-
-			
-			 var x =document.getElementById('list').offsetWidth;
-			
-			var taskCout = 5;
-			while (x/taskCout<100){
-				taskCout--;
-			}
-			
-			
-			
-          
-			var counterColumn =0;
-			while (counterColumn<taskCout){
-				var node = document.createElement("div");			
-				node.setAttribute("class", "listcolumn" );
-				node.setAttribute("id", counterColumn );
-				node.style.width= 100/taskCout + '%';
-				node.setAttribute("ondrop", "drop(event)" );
-				node.setAttribute("ondragover", "allowDrop(event)");
-				document.getElementById("list").appendChild(node);
-				counterColumn++;
-			}
-			
-			
-	
-		  var i=0;
-				
-					{% for job in jobs %}
-						
-						console.log(i);
-						node = document.getElementById(i);
-						node.insertAdjacentHTML('afterbegin', ' <div class ="task"  href="#" onclick= "taskClick( {{ job.id }} )" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" style ="height: {{ job.duration*20}}px; margin-top: 4px;"> {{ job.name }} </div>  ');
-						i++;
-						if(i>=taskCout) i=0;
-					{% endfor %}
-				
-				
-      
-
-
-     
-         
-		 var x =document.getElementById('harm').offsetWidth;
-			console.log(x);
-		 var daycout = 7;
-		 while (x/daycout<100){
-			daycout--;
-		 }
-		 var d= daycout;
-			console.log(d);
-		 
-		if (daycout==2){
-			
-			var node = document.createElement("div");			
-				node.setAttribute("class", "tekst2" );
-				var textnode = document.createTextNode("{{days[0]}}");        
-				node.appendChild(textnode);                          
-			    
-			var day = document.createElement("div");			
-				day.setAttribute("class", "day" );
-				day.style.width= 70/d + '%';
-				day.setAttribute("id", "{{days[0]}}" );
-				day.setAttribute("ondrop", "drop(event)" );
-				day.setAttribute("ondragover", "allowDrop(event)");
-				day.appendChild(node); 
-			
-			document.getElementById("harm").appendChild(day);
-			
-			{% for t in data %}
-
-				if ( "{{ days[0]}}" == "{{ t[0] }}.{{t[3]}}" ) {
-					if ( {{ t[2] }} == 1 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E; position: absolute; margin-top: {{t[4]+28}}px;">{{ t[1].name }}  </div>  ');
-					if ( {{ t[2] }} == 2 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  style ="height:{{ t[1].duration*20 }}px;position: absolute; margin-top: {{t[4]+28}}px; background-color: #F7EC66">{{ t[1].name }}  </div>  ');
-				
-				}
-
-            {% endfor %}
-		
-		}else{
-		 
-		 
-		{% for day in days %}
-	
-		if (daycout>0){
-			var node = document.createElement("div");			
-				node.setAttribute("class", "tekst2" );
-				var textnode = document.createTextNode("{{day}}");        
-				node.appendChild(textnode);                          
-			    
-			var day = document.createElement("div");			
-				day.setAttribute("class", "day" );
-				day.style.width= 90/d + '%';
-				day.setAttribute("id", "{{day}}" );
-				day.setAttribute("ondrop", "drop(event)" );
-				day.setAttribute("ondragover", "allowDrop(event)");
-				day.appendChild(node); 
-			
-			document.getElementById("harm").appendChild(day);
-			
-			{% for t in data %}
-
-            if ( "{{ day}}" == "{{ t[0] }}.{{t[3]}}" ) {
-				if ( {{ t[2] }} == 1 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E; position: absolute; margin-top: {{t[4]+28}}px;">{{ t[1].name }}  </div>  ');
-				if ( {{ t[2] }} == 2 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  style ="height:{{ t[1].duration*20 }}px;position: absolute; margin-top: {{t[4]+28}}px; background-color: #F7EC66">{{ t[1].name }}  </div>  ');
-				
-			}
-
-            {% endfor %}
-			daycout--;
-		}	
-	    {% endfor %}
-			}
-	
-            
-
-
-
-            currentX =currentY =0;
-            var idJob =0;
-			
-			
-			
-			 function odbierzDane()
-            {
-                if (r.readyState == 4) {
-                    if (r.status == 200 || r.status == 304) {
-                        
-						
-						e.innerHTML = r.response;  
-					
                     }
                 }
             }
@@ -265,9 +126,10 @@
                     }
                 }
             }
-			
             function changeList(adresurl, htmlid)
             {
+			 
+			
                 if (r = xmlHttp) {
                     e = document.getElementById(htmlid);
                     
@@ -275,8 +137,42 @@
                     r.onreadystatechange = odbierzDane2;
                     r.send(null);
                 }
+				
+			
             }
+		
+			
+          
+{% for f in friends %}
 
+	 friend = document.createElement("div");			
+		friend.setAttribute("class", "friend" );
+		
+		
+		var textnode = document.createTextNode("{{f.login}}");
+		friend.appendChild(textnode);
+		document.getElementById("harm").appendChild(friend);
+
+		
+	
+		
+{% endfor %}	
+          
+
+			
+			
+	
+            
+
+
+
+            currentX =currentY =0;
+            var idJob =0;
+			
+			
+			
+	
+	
 
 			function addJob(adresurl)
             {
@@ -430,13 +326,6 @@
             var e;
 
 
-function taskClick( id ) {
-
-	
-
-	changeList('/showAccept/' + id , 'list');
- 
-}
 
 
 
