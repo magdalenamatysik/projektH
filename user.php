@@ -43,6 +43,38 @@ class user implements UserInterface
      */
     private $email;
 
+	/**
+     * @var int
+     *
+     * @ORM\Column(name="idFridge", type="integer")
+     */
+    private $idFridge;
+	
+	
+	 /**
+     * Set idFridge
+     *
+     * @param integer $idFridge
+     *
+     * @return job
+     */
+    public function setidFridge($idFridge)
+    {
+        $this->idFridge = $idFridge;
+
+        return $this;
+    }
+
+    /**
+     * Get idFridge
+     *
+     * @return int
+     */
+    public function getidFridge()
+    {
+        return $this->idFridge;
+    }
+	
 
     /**
      * Get id

@@ -12,18 +12,29 @@
 
 
 
+        
         <div id="menu">
 
             <a href="/harmonogram/logout" style="text-decoration: none" >
                 <div id ="user_panel">
-                
+                   
                         Hej, {{ user.login }}
-                
+                    
 
                 </div>
             </a>
 
 
+				<a href="#" onclick="changeList('/food','list')" style="text-decoration: none" >
+
+
+                <div id= "add_meetbox" style="background-color:#48D1CC">
+                  
+                        food
+                   
+                </div>
+            </a>
+			
             <a href="#" onclick="changeList('/add','list')" style="text-decoration: none" >
 
 
@@ -43,11 +54,15 @@
                 </div>
             </a>
 			
+		
+
+			
+			
 			<a href="/friend" style="text-decoration: none" >
 
-                <div id= "add_meetbox">
+                <div id= "add_meetbox" style="text-decoration: none; background-color: #ea2a6a; color: white">
                  
-                        friends
+                        znajomi
                    
                 </div>
             </a>
@@ -57,16 +72,17 @@
 
         <div id="list" >
           		
-		<div class="polel" style="width: 120px;" > Wiadomość </div> 	<textarea name="description" class="poler" style="width: 200px; height: 150px; float: clear;" ></textarea>
-		<input  class="button" onclick="changeList('/findTask', 'list')" style="width: 120px;"value="wybierz zadanie">
-		<input type ="submit" class="button" value="wyslij">
+			<div class="polel" style="width: 120px;" > Wiadomość </div> 
+			<textarea name="description" class="poler" style="width: 200px; height: 150px; float: clear;" ></textarea>
+			<input  class="button" onclick="changeList('/findTask', 'list')" style="width: 120px;"value="wybierz zadanie">
+			<input type ="submit" class="button" value="wyslij">
 
         </div>
 
 		<form action="/findFriend" method="Post">
 			
 
-			<div class="polel"> szukaj znajomych </div> <input type="text" class="poler" name="name" >
+			<div class="polel" style=" width: 20%;"> szukaj znajomych </div> <input type="text" class="poler" name="name" >
 		
 			<input type ="submit" class="button" value="szukaj">
 
@@ -126,6 +142,19 @@
                     }
                 }
             }
+			
+			var jobID=-1;
+			var friendID=-1;
+			
+			function addTask(id)
+            {
+				
+				jobID=id;
+				
+				document.getElementById("list").insertAdjacentHTML('afterbegin', '<form action="/send/'+ friendID+'/'+ jobID+'" method="Post"> <div class="polel" style="width: 120px;" > Wiadomość </div> <textarea name="description" class="poler" style="width: 200px; height: 150px; float: clear;" ></textarea> <input  class="button" onclick="changeList("/findTask", "list")" style="width: 120px;" value= "wybano "> <input type ="submit" class="button" value="wyslij"> </form>');
+            }
+			
+			
             function changeList(adresurl, htmlid)
             {
 			 
@@ -145,11 +174,23 @@
           
 {% for f in friends %}
 
-	 friend = document.createElement("div");			
-		friend.setAttribute("class", "friend" );
+	friend = document.createElement("div");			
+		var textnode;
+			if ({{f.accept}}==0) {
+				friend.setAttribute("class","friendAccept");
+				friend.setAttribute("onclick", "accept({{f.id}})" );
+				textnode = document.createTextNode("{{f.login}} AKCEPTUJ");
+			}
+			else{
+				friend.setAttribute("class", "friend" );
+				friend.setAttribute("onclick", "friendClick({{f.login}})" );
+				textnode = document.createTextNode("{{f.login}}");
+			}
 		
+		friend.setAttribute("id", "{{f.id}}" );
 		
-		var textnode = document.createTextNode("{{f.login}}");
+	
+		
 		friend.appendChild(textnode);
 		document.getElementById("harm").appendChild(friend);
 
@@ -160,10 +201,18 @@
           
 
 			
+			function friendClick(id){
 			
+				friendID= id;
+				
+				console.log(id);
+			}
 	
-            
-
+            function accept(id){
+			
+				addJob('/acceptFriend/'+id);
+			}
+		
 
 
             currentX =currentY =0;
@@ -171,7 +220,12 @@
 			
 			
 			
-	
+	function send(){
+		
+		addJob('/send/'+friendID+'/'+jobID);
+		
+		
+	}
 	
 
 			function addJob(adresurl)

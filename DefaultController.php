@@ -11,6 +11,7 @@ use AppBundle\Form\login;
 use AppBundle\Entity\user;
 use AppBundle\Entity\job;
 use AppBundle\Entity\Relation;
+use AppBundle\Entity\fridge;
 use AppBundle\Form\add_job;
 use AppBundle\Form\addMeet;
 use AppBundle\Form\show;
@@ -143,6 +144,76 @@ class DefaultController extends Controller
 			return $this->render('default/add_job.html.twig');
     }
 
+
+	/**
+     * @Route("/addRecipe", name="addRecipe")
+     */
+    public function addRecipeAction(Request $request)
+    {
+		
+			return $this->render('default/addRecipe.html.twig');
+    }
+
+	
+
+	
+	
+	
+	 /**
+     * @Route("/food", name="food")
+     */
+    public function foodAction(Request $request)
+    {
+		$session = $request->getSession();
+        $user = $session->get('user');
+		
+		
+		if ($user->getidFridge()==0)	return $this->render('default/food.html.twig');
+		else {
+			
+				
+				return $this->render('default/fridge.html.twig');
+			
+			
+		}
+    }
+
+	
+	
+	/**
+     * @Route("/newFridge", name="newFridge")
+     */
+    public function newFridge(Request $request)
+    {
+		$session = $request->getSession();
+        $user = $session->get('user');
+		
+		$user = $this->getDoctrine()->getRepository('AppBundle:use')->findOneBy(array('id' => $user->getID()));
+		 
+		
+		$fridge = new fridge();
+		$fridge->setIdOwner($user->getID());
+		
+		  $em = $this->getDoctrine()->getManager();
+          $em->persist($fridge);
+          $em->flush();
+		  
+		  $f = $this->getDoctrine()->getRepository('AppBundle:fridge')->findOneBy(array('idOwner' => $user->getID()));
+		 
+		  
+		$user->setidFridge($f->getId());
+		
+		 $em->persist($user);
+         $em->flush();
+		 
+		 
+		$session->set('user',$user);
+		
+		if ($user->getidFridge()==0)	return $this->render('default/food.html.twig');
+		else return $this->redirectToRoute('harmonogram');
+    }
+
+	
 	
 	
 	 /**
@@ -448,6 +519,45 @@ class DefaultController extends Controller
 
     }
 
+	
+	
+	/**
+     * @Route("/acceptFriend/{id}", name="acceptFriend")
+     */
+    public function acceptFriend(Request $request, $id)
+    {
+
+		
+          
+           $session = $request->getSession();
+           $user = $session->get('user');
+			$myID= $user->getID();
+			$em = $this->getDoctrine()->getManager();
+		   
+           $query =$em->createQuery(
+			'SELECT r
+			FROM AppBundle:User user
+			JOIN AppBundle:Relation r
+			WHERE r.idUser = :DD AND r.idUser2 = :my
+			AND r.idUser2=user.id 
+			OR r.idUser2 = :DD AND r.idUser = :my
+			AND r.idUser=user.id '
+			)->setParameter('DD', $id)->setParameter('my', $myID);
+			
+			$relation = $query->getSingleResult();
+	   
+			
+		  
+		   $relation->setAccept(1);
+		   
+					$em->persist($relation);
+					$em->flush();
+					$em->clear();
+	   
+        return $this->redirectToRoute('friend');
+
+
+    }
 
 	
     /**
@@ -473,7 +583,7 @@ class DefaultController extends Controller
 	   
 	   $em = $this->getDoctrine()->getManager();
 	   $query =$em->createQuery(
-			'SELECT user
+			'SELECT user.login, user.id, r.accept
 			FROM AppBundle:User user
 			JOIN AppBundle:Relation r
 			WHERE r.idUser = :DD
@@ -496,9 +606,32 @@ class DefaultController extends Controller
 		$session = $request->getSession();
         $user = $session->get('user');
 
-        //spradz czy task spradzanie id i flagi (0- task)
+   
         $jobs = $this->getDoctrine()->getRepository('AppBundle:job')->findBy( array('idUser' => $user->getID(), 'flag'=> 0));
 		return $this->render('default/Task.html.twig',array('user' => $user, 'jobs' => $jobs));
+		
+	}
+	
+	
+	 /**
+     * @Route("/send/{fID}/{jID}", name="send")
+     */
+    public function sendAction($fID, $jID, Request $request)
+    {
+		$session = $request->getSession();
+        $user = $session->get('user');
+		$rr = $_POST['description'];
+		
+        $job = $this->getDoctrine()->getRepository('AppBundle:job')->findOneBy( array('idUser' => $user->getID(), 'id'=> $jID));
+		$job->setIdUser($fID);
+		
+		$em = $this->getDoctrine()->getManager();
+		
+					$em->persist($job);
+					$em->flush();
+					$em->clear();
+		
+		return $this->render('default/Task.html.twig',array('user' => $user, 'jobs' => $job));
 		
 	}
 	

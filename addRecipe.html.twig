@@ -1,0 +1,26 @@
+{% extends 'base.html.twig'  %}
+
+
+
+{% block body %}
+
+<form action="/addAccept" method="Post">
+<div id="add_job">
+
+ <div class="polel" id="1" > nazwa</div> 	<input type="text" class="poler" name="name" >
+ <div class="polel" id="2" > opis</div> 	<textarea name="description" class="poler" style="width: 185px;" ></textarea>
+ <div class="polel" id="3" > czas</div>		<input type="text" class="poler"  name="duration" >
+ <div class="polel" id="4" > ilość osób </div>	<input type="text" class="poler"  name="person" >
+ <input type ="submit" id="5" class="button" value="next">
+ 
+ <input type ="submit" id="6" class="button" value="dodaj">
+
+</div>
+</form>
+
+{% endblock %}
+
+ {% block javascript %}
+
+
+ {% endblock %}

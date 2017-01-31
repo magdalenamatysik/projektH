@@ -7,13 +7,19 @@
 
 
 
+<div id="add_meet" style="background-color: #777777" >
+		
+		
+			<div class="button" onclick="changeList('/addRecipe','list')" > dodaj przepis</div>
+          <div class="food_box"> sniadanie </div>
+		  <div class="food_box"> obiad </div>
+		  <div class="food_box"> kolacja </div>
 
-    
-
-      
+		 
 
 
-		    
+		
+</div  >		    
 
 		
 
@@ -29,55 +35,28 @@
 
 		
 		
-			
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;
+						
+                    }
+                }
+            }
+
+    
+		
 
           
 
           
 
-			
-			 var x =document.getElementById('list').offsetWidth;
-			
-			var taskCout = 5;
-			while (x/taskCout<100){
-				taskCout--;
-			}
-			
-			
-			
-          
-			var counterColumn =0;
-			while (counterColumn<taskCout){
-				var node = document.createElement("div");			
-				node.setAttribute("class", "listcolumn" );
-				node.setAttribute("id", counterColumn );
-				node.style.width= 100/taskCout + '%';
-				node.setAttribute("ondrop", "drop(event)" );
-				node.setAttribute("ondragover", "allowDrop(event)");
-				document.getElementById("list").appendChild(node);
-				counterColumn++;
-			}
-			
 			
 	
-		  var i=0;
-				
-					{% for job in jobs %}
-						
-						console.log(i);
-						node = document.getElementById(i);
-						node.insertAdjacentHTML('afterbegin', ' <div class ="task"  href="#" onclick= "addTask({{job.id}})" draggable="true" ondragstart="drag(event)" id="{{ job.id }}" style ="height: {{ job.duration*20}}px; margin-top: 4px;"> {{ job.name }} </div>  ');
-						i++;
-						if(i>=taskCout) i=0;
-					{% endfor %}
-				
-				
-      
-
-
-     
-         
-		
+            
 
 
 
@@ -126,6 +105,15 @@
             }
 
 
+			function addJob(adresurl)
+            {
+                if (r = xmlHttp) {
+                    e = document;
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
 			
             $('form.ajax').on('submit',function () {
                 var that =$(this);
@@ -270,6 +258,8 @@
 
 
 function taskClick( id ) {
+
+	
 
 	changeList('/showAccept/' + id , 'list');
  

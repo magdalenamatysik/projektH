@@ -24,6 +24,16 @@
             </a>
 
 
+				<a href="#" onclick="changeList('/food','list')" style="text-decoration: none" >
+
+
+                <div id= "add_meetbox" style="background-color:#48D1CC">
+                  
+                        food
+                   
+                </div>
+            </a>
+			
             <a href="#" onclick="changeList('/add','list')" style="text-decoration: none" >
 
 
@@ -43,11 +53,15 @@
                 </div>
             </a>
 			
+		
+
+			
+			
 			<a href="/friend" style="text-decoration: none" >
 
-                <div id= "add_meetbox">
+                <div id= "add_meetbox" style="text-decoration: none; background-color: #ea2a6a; color: white">
                  
-                        friends
+                        znajomi
                    
                 </div>
             </a>
@@ -98,18 +112,7 @@
                 }
             }
 
-            function changeList(adresurl, htmlid)
-            {
-			 
-			
-                if (r = xmlHttp) {
-                    e = document.getElementById(htmlid);
-                    
-                    r.open('GET', adresurl);
-                    r.onreadystatechange = odbierzDane;
-                    r.send(null);
-                }
-            }
+    
 		
 
           
