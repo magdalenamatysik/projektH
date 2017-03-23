@@ -1,0 +1,34 @@
+{% extends 'base.html.twig'  %}
+
+
+
+{% block body %}
+
+<form action="/recipe"  method="Post" enctype="multipart/form-data">
+<div id="add_job">
+
+ <div class="polel" id="1" > nazwa</div> 	<input type="text" class="poler" name="name" >
+
+ <div class="polel" id="3" > czas</div>		<input type="text" class="poler"  name="duration" >
+ <div class="polel" id="4" > ilość osób </div>	<input type="text" class="poler"  name="person" >
+
+ 
+ <input type="file" name="foto" id="foto">
+ <input type="submit"   class="button" value="tworz" name="submit">
+ 
+ 
+
+
+</div>
+</form>
+
+
+ {% block javascript %}
+
+
+
+ 
+ 
+ {% endblock %}
+
+{% endblock %}

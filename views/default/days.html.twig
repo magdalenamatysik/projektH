@@ -1,0 +1,336 @@
+{% extends 'base.html.twig'  %}
+
+
+
+
+{% block body %}
+
+
+
+<div class="harm">
+    
+       
+
+	
+</div>
+
+
+  
+    {% block javascript %}
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script>
+            
+ 
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;
+						
+                    }
+                }
+            }
+
+            function changeList(adresurl, htmlid)
+            {
+                if (r = xmlHttp) {
+                    e = document.getElementById(htmlid);
+                    
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+		
+
+
+
+           var x =document.getElementById('harm').offsetWidth;
+			console.log(x);
+		 var daycout = 7;
+		 while (x/daycout<100){
+			daycout--;
+		 }
+		 var d= daycout;
+			console.log(d);
+		 
+		if (daycout==2){
+			
+			var node = document.createElement("div");			
+				node.setAttribute("class", "tekst2" );
+				var textnode = document.createTextNode("{{days[0]}}");        
+				node.appendChild(textnode);                          
+			    
+			var day = document.createElement("div");			
+				day.setAttribute("class", "day" );
+				day.style.width= 70/d + '%';
+				day.setAttribute("id", "{{days[0]}}" );
+				day.setAttribute("ondrop", "drop(event)" );
+				day.setAttribute("ondragover", "allowDrop(event)");
+				day.appendChild(node); 
+			
+			document.getElementById("harm").appendChild(day);
+			
+			{% for t in data %}
+
+            if ( "{{ days[0]}}" == "{{ t[0] }}.{{t[3]}}" ) {
+				if ( {{ t[2] }} == 1 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E; position: absolute; margin-top: {{t[4]+28}}px;">{{ t[1].name }}  </div>  ');
+				if ( {{ t[2] }} == 2 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  style ="height:{{ t[1].duration*20 }}px;position: absolute; margin-top: {{t[4]+28}}px; background-color: #F7EC66">{{ t[1].name }}  </div>  ');
+				
+			}
+
+            {% endfor %}
+		
+		}else{
+		 
+		 
+		{% for day in days %}
+	
+		if (daycout>0){
+			var node = document.createElement("div");			
+				node.setAttribute("class", "tekst2" );
+				var textnode = document.createTextNode("{{day}}");        
+				node.appendChild(textnode);                          
+			    
+			var day = document.createElement("div");			
+				day.setAttribute("class", "day" );
+				day.style.width= 96/d + '%';
+				day.setAttribute("id", "{{day}}" );
+				day.setAttribute("ondrop", "drop(event)" );
+				day.setAttribute("ondragover", "allowDrop(event)");
+				day.appendChild(node); 
+			
+			document.getElementById("harm").appendChild(day);
+			
+			{% for t in data %}
+
+            if ( "{{ day}}" == "{{ t[0] }}.{{t[3]}}" ) {
+				if ( {{ t[2] }} == 1 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" style ="height:  {{ t[1].duration*20 }}px; background-color: #b7EE6E; position: absolute; margin-top: {{t[4]+28}}px;">{{ t[1].name }}  </div>  ');
+				if ( {{ t[2] }} == 2 ) day.insertAdjacentHTML('afterbegin', '    <div class ="task" href="#" onclick= "taskClick( {{ t[1].id }} )" draggable="true" ondragstart="drag(event)" id="{{ t[1].id }}"  style ="height:{{ t[1].duration*20 }}px;position: absolute; margin-top: {{t[4]+28}}px; background-color: #F7EC66">{{ t[1].name }}  </div>  ');
+				
+			}
+
+            {% endfor %}
+			daycout--;
+		}	
+	    {% endfor %}
+			}
+
+
+
+            currentX =currentY =0;
+            var idJob =0;
+			
+			
+			
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;  
+					
+                    }
+                }
+            }
+
+			function odbierzDane2()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;  
+						var codes = e.getElementsByTagName("script");   
+						for(var i=0;i<codes.length;i++)  
+						{  
+							eval(codes[i].text);  
+						}  
+                    }
+                }
+            }
+			
+            function changeList(adresurl, htmlid)
+            {
+                if (r = xmlHttp) {
+                    e = document.getElementById(htmlid);
+                    
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane2;
+                    r.send(null);
+                }
+            }
+
+
+			function addJob(adresurl)
+            {
+                if (r = xmlHttp) {
+                    e = document;
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+			
+            $('form.ajax').on('submit',function () {
+                var that =$(this);
+                url=that.attr('action'),
+                        type= that.attr('method'),
+                        data={};
+
+                that.find('[name]').each(function (index) {
+                    var that= $(this),
+                            name=that.attr('name');
+                    data[name]=that.val();
+                });
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                    }
+
+
+                });
+                return false;
+            })
+
+
+			var task;
+			var job;
+			var id;
+            function allowDrop(ev) {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = "move";
+				
+            }
+			
+            function drag(ev) {
+			
+				
+                id = ev.target.id;
+				task = ev.target;
+				
+				ev.dataTransfer.setData("text", ev.target.id);
+
+				
+				
+				
+            }
+
+			var test;
+			
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+
+
+
+                if (ev.ctrlKey)
+                {
+                    var nodeCopy = document.getElementById(data).cloneNode(true);
+                    nodeCopy.id = "newId"; /* We cannot use the same ID */
+					
+					
+					var t = document.createElement('task');
+					ev.target.appendChild(t);
+					
+					var Y = ev.pageY;
+                    ev.target.appendChild(nodeCopy);
+					
+					 
+                }
+                else {
+				
+					var Y = ev.pageY;
+					var X = ev.pageX;
+					var k = 0;
+					var z = 0;
+					var y = Y-360;
+					
+					if (Y<360){
+						addJob('/return/'+id);
+						var yz = ev.target.appendChild(document.getElementById(data));
+						
+					}else{
+					
+					
+					task.style.marginTop = y+"px";
+					var yz = ev.target.appendChild(document.getElementById(data));
+						
+					addJob('/test/'+y+'/'+X+'/'+id);
+					}
+                   
+                }
+				
+				
+
+            }
+
+            
+
+
+
+
+            var xmlHttp = createXmlHttpRequestObject();
+
+            function createXmlHttpRequestObject()
+            {
+                var xmlHttp;
+
+                if(window.ActiveXObject)
+                {
+                    try
+                    {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        xmlHttp = new XMLHttpRequest();
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+
+                if(!xmlHttp)
+                    alert("cant create object");
+                else
+                    return xmlHttp;
+
+
+            }
+
+
+            var r;
+            var e;
+
+
+
+
+           
+
+
+           
+        </script>
+
+    {% endblock %}
+
+
+
+
+
+
+{% endblock %}

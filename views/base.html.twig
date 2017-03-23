@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+
+            <style>
+@media (min-width: 460px) {
+
+
+                #container
+                {
+                    width: 90%;
+                    height: 100%;
+					margin-left: 5%;
+                   
+                    text-align: center;
+                   
+					
+
+                }
+
+
+
+
+                body{
+                    background-color: #666666;
+                    font-family: 'Lato', sans-serif;
+                    font-size:10px;
+                }
+
+
+                #menu{
+                  
+                    width: 100%;
+                    height: 30px;
+					
+					
+
+                }
+
+                #user_panel{
+
+                    width: 20%;
+                    height: 100%;
+                    background-color: #888888;
+                    font-size: 25px;
+					color: white;
+					text-align: center;
+                    float: left;
+                    font-family: 'Josefin Sans', sans-serif;
+                }
+
+                #user_panel:hover
+                {
+                    background-color: #37c0bb;
+                }
+
+
+				#box{
+					align: center;
+					float: left;
+				}
+				
+                #tekst{
+                    width: auto;
+                    height: 100px;
+                    text-align: center;
+                    float: left;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 15px;
+                    color: white;
+                    padding-top: 50%;
+                }
+
+
+                #tekstt{
+                    width: auto;
+                    height: 100px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 15px;
+                    color: white;
+                  
+
+                }
+
+
+                #add_meet{
+
+                    width: 90%;
+                    height: 200px;
+					margin: auto;
+                    margin-top: 10px;
+                    padding-top: 10px;
+					background-color: #a6dd5d;
+					font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+
+                }
+
+
+                #add_job{
+
+                    width: 300px;
+                    height: 170px;
+                    margin: auto;
+					margin-left: 20px;
+                   
+                    background-color: #888888;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 12px;
+                    color: white;
+
+                }
+
+
+
+                .add_meetbox{
+
+                    width: 16.5%;
+                    height: 70%;
+                    float: left;
+					
+                    background-color: #a6dd5d;
+					text-align: center;
+                    
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 15px;
+                    color: white;
+                 
+                 
+
+                }
+
+                .add_meetbox:hover
+                {
+                    background-color: #a6dd5d;
+                }
+
+
+
+
+                #job{
+                    width: 300px;
+                    height: 250px;
+                    margin: auto;
+                    margin-top: 20px;
+                    padding-top: 10px;
+                    background-color: #F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+                }
+
+
+				
+
+				
+                #list{
+
+                   
+                    width: 99%;
+
+                    overflow: auto;
+                    color:black;
+
+                }
+
+                .listcolumn{
+
+                    float: left;
+                    
+                    height: 100%;
+					
+                    background-color: #777777;
+
+                    color:black;
+
+                }
+
+                #harm
+                {
+                    float: left;
+                    width: 100%;
+
+                    height: 485px;
+
+                }
+
+
+                .day{
+                   float: left;
+					width: 13%;
+                    height: 500px;
+					margin-right: 0.5%;
+                    background-color: #777777;
+					position: relative;
+
+                }
+
+                .task{
+                    float: left;
+                    width: 95%;
+					margin-left: 2.5%;
+                    background-color:#F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+					
+                    text-align: inherit;
+                    color: gray;
+                }
+
+				.friend{
+                    
+                    width: 100px;
+					height: 100px;
+					margin: 5px;
+					
+                    background-color: grey;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+					float: left;
+					
+                    text-align: inherit;
+                    color: white;
+                }
+				
+				.food_box{
+                    
+                    width: 150px;
+					height: 15%;
+					margin: 5px;
+					
+                    background-color: #48D1CC;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+					margin-left: 30px;
+					
+                    text-align: inherit;
+                    color: white;
+                }
+				
+				
+				.friendAccept{  
+					width: 100px;
+					height: 100px;
+					margin: 5px;
+					font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+					float: left;
+					
+                    text-align: inherit;
+					background-color: #e02c68;
+					color: white;
+				}
+				
+				.taskDrag{
+                    float: left;
+                    width: 180px;
+                    
+
+                    background-color:#F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    text-align: inherit;
+                    color: gray;
+					opacity:0.5;
+                }
+				
+				
+				.blank{
+                    
+                    width: 180px;
+                   float: left;
+					
+                   
+                    font-family: 'Josefin Sans', sans-serif;
+                
+                   
+                }
+				
+				
+				.roll{
+                    
+                   width: 30px;
+				   height: 15px;
+                   float: left;
+				    margin-left: 30%;
+					color: white;
+                   
+                }
+				
+
+                .task:hover{
+                    background-color:#e6db55;
+                }
+
+                .tekst2{
+
+                    
+                    width: 90%;
+                    margin: 5px;
+					margin-left: auto;
+					margin-right: auto;
+                    background-color:#999999;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 15px;
+                    color: white;
+                    text-decoration: underline ;
+
+                }
+
+                .tekst3{
+                    width: 380px;
+                    height: 40px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: white;
+                    margin-bottom: 10px;
+                    background-color:#00BBBA;
+                }
+
+                .tekst4{
+                    width: 150px;
+                    height: 40px;
+                    text-align: right;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+                    margin-top: 72px;
+                    float: left;
+
+                }
+                .tekst5{
+
+                    height: 30px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: #ffffff;
+                    margin-bottom: 30px;
+
+                }
+
+                #logframe{
+                    width: 380px;
+                    height: 250px;
+
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: white;
+                    background-color: #00CCCB;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-top: 200px;
+
+
+                }
+
+
+                .polel{
+
+
+                    height: 20px;
+                    text-align: center;
+                    width: 40%;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 15px;
+                    color: white;
+					float: left;
+					margin-top: 8px;
+					
+
+
+                }
+
+                .poler{
+
+                    height: 20px;
+                    text-align: center;
+                    width: 40%;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: black;
+					margin-top: 7px;
+					float: left;
+                    
+
+
+                }
+
+
+
+                .button{
+                    width: 100px;
+                    height: 20px;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+                    text-align: center;
+                    color: white;
+                    float: right;
+                    background-color:#999999;
+                    box-shadow: 0 3px 3px #888888;
+                    text-decoration:none;
+                     margin-top: 5px;
+                    margin-right: 27px;
+                    margin-bottom: 10px;
+
+                }
+
+                a.button:hover {
+                    background: #888888;
+
+                }
+                #myBtn{
+                    width: 100px;
+                    height: 30px;
+                    margin-left:auto;
+                    margin-right:auto;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 18px;
+                    color: white;
+                    background-color:#00BBBA;
+                    box-shadow: 0 3px 3px #00AAA5;
+                    text-decoration:none;
+
+                }
+
+                #myBtn:hover {
+                    background: #00AAA5;
+
+                }
+
+                .modal {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                    background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                }
+
+                /* Modal Content/Box */
+                .modal-content {
+                    background-color: gray;
+                    color:#00AAA5;
+                    margin: 15% auto; /* 15% from the top and centered */
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 380px;
+                    height:250px;/* Could be more or less, depending on screen size */
+                }
+
+                /* The Close Button */
+                .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+
+                .close:hover,
+                .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+				
+
+			}
+			
+			@media (max-width: 460px) {
+
+
+                #container
+                {
+                    width: auto;
+                    height: 900px;
+                    margin-left: 10px;
+                   
+                    margin-top: 5px;
+                    text-align: center;
+                    font-size:10px;
+					
+
+                }
+
+
+
+
+                body{
+                    background-color: 	#666666;
+                    font-family: 'Lato', sans-serif;
+                    font-size:10px;
+                }
+
+
+                #menu{
+                    
+                    width: 100%;
+                    height: 50px;
+					
+					
+
+                }
+
+                #user_panel{
+
+                    width: 40%;
+                    height: 100%;
+                    background-color: #48D1CC;
+					float: left;
+                    
+
+                }
+
+                #user_panel:hover
+                {
+                    background-color: #37c0bb;
+                }
+
+
+                #tekst{
+                    width: auto;
+                    height: 100px;
+                    text-align: center;
+                    float: left;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+                    color: white;
+                    padding-top: 50%;
+                }
+
+
+                #tekstt{
+                    width: auto;
+                    height: 100px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+                    color: white;
+                    padding-top: 5px;
+
+                }
+
+
+                #add_meet{
+
+                    width: 100%;
+                    height: 315px;
+                    margin: auto;
+                    margin-top: 10px;
+                    padding-top: 10px;
+                   background-color: #a6dd5d;
+					font-family: 'Josefin Sans', sans-serif;
+                    font-size: 9px;
+                    color: white;
+
+                }
+
+
+                #add_job{
+
+                    width: 100%;
+                    height: 250px;
+                    margin: auto;
+                    margin-top: 10px;
+                    padding-top: 10px;
+                    background-color: #F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+
+                }
+
+
+
+                #add_meetbox{
+
+                     
+					margin-left: 5px;
+                    background-color: #a6dd5d;
+					text-align: center;
+               
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+					
+                    color: white;
+                 
+                 
+
+                }
+
+                #add_meetbox:hover
+                {
+                    background-color: #a6dd5d;
+                }
+
+
+
+
+                #job{
+                    width: 300px;
+                    height: 250px;
+                    margin: auto;
+                    margin-top: 20px;
+                    padding-top: 10px;
+                    background-color: #F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+                }
+
+
+
+                #list{
+
+                    float: left;
+                    width: 40%;
+                    height: 485px;
+                    
+                    background-color: #666666;
+                    overflow: auto;
+                    color:black;
+
+                }
+
+                .listcolumn{
+
+                    float: left;
+                    width: 80%;
+                    height: 485px;
+
+                    background-color: #666666;
+
+                    color:black;
+
+                }
+
+                #harm
+                {
+                    float: left;
+                    width: 50%;
+                    height: 485px;
+                   
+
+
+
+                }
+
+
+                .day{
+                   float: left;
+                 
+                    height: 480px;
+                    margin: 5px;
+					margin-top: 0px;
+                    background-color: #777777;
+					position: relative;
+
+                }
+
+                .task{
+                    float: left;
+                    width: 100%;
+					
+                    background-color:#F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                   
+					
+                    text-align: inherit;
+                    color: gray;
+                }
+
+				.taskDrag{
+                    float: left;
+                    width: 180px;
+                    
+
+                    background-color:#F7EC66;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    text-align: inherit;
+                    color: gray;
+					opacity:0.5;
+                }
+				
+				
+				.blank{
+                    
+                    width: 180px;
+                   float: left;
+					
+                   
+                    font-family: 'Josefin Sans', sans-serif;
+                
+                   
+                }
+				
+				
+				.roll{
+                    
+                   width: 30px;
+				   height: 15px;
+                   float: left;
+				 margin-left: 10%;
+					color: white;
+                   
+                }
+				
+
+                .task:hover{
+                    background-color:#e6db55;
+                }
+
+                .tekst2{
+
+                    
+                    width: 90%;
+                    margin: 5px;
+					margin-left: auto;
+					margin-right: auto;
+                    background-color:#999999;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 15px;
+                    color: white;
+                    text-decoration: underline ;
+
+                }
+
+                .tekst3{
+                    width: 380px;
+                    height: 40px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: white;
+                    margin-bottom: 10px;
+                    background-color:#00BBBA;
+                }
+
+                .tekst4{
+                    width: 150px;
+                    height: 40px;
+                    text-align: right;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+                    margin-top: 72px;
+                    float: left;
+
+                }
+                .tekst5{
+
+                    height: 30px;
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: #ffffff;
+                    margin-bottom: 30px;
+
+                }
+
+                #logframe{
+                    width: 380px;
+                    height: 250px;
+
+                    text-align: center;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 30px;
+                    color: white;
+                    background-color: #00CCCB;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-top: 200px;
+
+
+                }
+
+
+                .polel{
+
+
+                    height: 20px;
+                    text-align: center;
+                   
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: white;
+					
+					margin-top: 8px;
+					
+
+
+                }
+
+                .poler{
+
+                    height: 20px;
+                    text-align: left;
+                    width: 80%;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 20px;
+                    color: black;
+					margin-top: 7px;
+					
+
+
+                }
+
+
+
+                .button{
+                    width: 70%;
+                    height: 20px;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 10px;
+                    text-align: center;
+                    color: white;
+                    float: right;
+                    background-color:#999999;
+                    box-shadow: 0 3px 3px #888888;
+                    text-decoration:none;
+                     margin-top: 5px;
+                    margin-right: 27px;
+                    margin-bottom: 10px;
+
+                }
+
+                a.button:hover {
+                    background: #888888;
+
+                }
+                #myBtn{
+                    width: 100px;
+                    height: 30px;
+                    margin-left:auto;
+                    margin-right:auto;
+                    font-family: 'Josefin Sans', sans-serif;
+                    font-size: 18px;
+                    color: white;
+                    background-color:#00BBBA;
+                    box-shadow: 0 3px 3px #00AAA5;
+                    text-decoration:none;
+
+                }
+
+                #myBtn:hover {
+                    background: #00AAA5;
+
+                }
+
+                .modal {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                    background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                }
+
+                /* Modal Content/Box */
+                .modal-content {
+                    background-color: gray;
+                    color:#00AAA5;
+                    margin: 15% auto; /* 15% from the top and centered */
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 380px;
+                    height:250px;/* Could be more or less, depending on screen size */
+                }
+
+                /* The Close Button */
+                .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+
+                .close:hover,
+                .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+				
+
+			}
+				
+            </style>
+
+
+
+
+
+
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <meta charset="utf-8" />
+        <title>Harmonogram</title>
+        <meta name="description" content="Strona tworzaca harmonogram zajec" />
+        <meta name="keywords" content="harmonogram plan" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+        <link href='http://fonts.googleapis.com/css?family=Lato|Josefin+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+        
+
+        {% endblock %}
+    </body>
+</html>
+

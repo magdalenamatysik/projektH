@@ -1,0 +1,399 @@
+{% extends 'base.html.twig'  %}
+
+
+
+
+{% block body %}
+
+
+
+
+    <div id="container">
+
+
+
+        <div id="menu">
+
+            <a href="/harmonogram/logout" style="text-decoration: none" >
+                <div id ="user_panel">
+                   
+                        Hej, {{ user.login }}
+                    
+
+                </div>
+            </a>
+
+
+				<a href="#" onclick="changeList('/food','list')" style="text-decoration: none" >
+
+
+                <div id= "add_meetbox" style="background-color:#48D1CC">
+                  
+                        food
+                   
+                </div>
+            </a>
+			
+            <a href="#" onclick="changeList('/add','list')" style="text-decoration: none" >
+
+
+                <div id= "add_meetbox" style="background-color:#e6db55">
+                  
+                        dodaj zadanie
+                   
+                </div>
+            </a>
+
+            <a href="#" onclick="changeList('/addmeet','list')" style="text-decoration: none" >
+
+                <div id= "add_meetbox">
+                 
+                        dodaj spotkanie
+                   
+                </div>
+            </a>
+			
+		
+
+			
+			
+			<a href="/friend" style="text-decoration: none" >
+
+                <div id= "add_meetbox" style="text-decoration: none; background-color: #ea2a6a; color: white">
+                 
+                        znajomi
+                   
+                </div>
+            </a>
+
+
+        </div>
+
+        <div id="list" >
+				<div class="tekstt" > Składniki : </div>
+				
+        </div>
+		
+        <div id="harm">
+ 
+ 	
+
+			<div class="polel" style=" width: 20%;"> szukaj skladnikow </div> <input type="text" id="search_text" class="poler" name="name" >
+		
+			<div id="adding" class="button" onclick="load_data2()">	Dodaj przepis </div>	
+
+ 
+           <div id="result"></div> 
+
+   </div>    
+		    
+	 </div>
+		
+
+			
+
+   
+
+
+    {% block javascript %}
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script>
+
+		
+		
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;
+						
+                    }
+                }
+            }
+
+    $(document).ready(function(){
+
+		load_data();
+
+		function load_data(query)
+		{
+			$.ajax({
+			url:"/fetch",
+			method:"POST",
+			data:{query:query},
+			success:function(data)
+				{
+				$('#result').html(data);
+				}
+			});
+		}
+ 
+		$('#search_text').keyup(function(){
+			var search = $(this).val();
+			if(search != '')
+			{
+				load_data(search);
+			}
+			else
+			{
+			load_data();
+			}
+		});
+		
+
+	
+		
+	});
+
+		function load_data2()
+		{
+			
+			var list = document.getElementById('list');
+			var x = list.getElementsByClassName('task');
+			var query = ' '+ "{{name}}";
+			var i;
+			for (i = 0; i < x.length; i++) {
+				var t = x[i].getElementsByClassName('poler');
+				query +=  ' ' + x[i].id + ' ' + t[0].value;
+			}
+			
+			$.ajax({
+			url:"/addingRecipe",
+			method:"POST",
+			data:{query:query},
+			success:function(data)
+				{
+					$('#container').html(data);
+				}
+			});
+		}
+		
+            currentX =currentY =0;
+            var idJob =0;
+			
+			
+			
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;  
+					
+                    }
+                }
+            }
+
+			function odbierzDane2()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;  
+						var codes = e.getElementsByTagName("script");   
+						for(var i=0;i<codes.length;i++)  
+						{  
+							eval(codes[i].text);  
+						}  
+                    }
+                }
+            }
+			
+            function changeList(adresurl, htmlid)
+            {
+                if (r = xmlHttp) {
+                    e = document.getElementById(htmlid);
+                    
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane2;
+                    r.send(null);
+                }
+            }
+
+
+			function addJob(adresurl)
+            {
+                if (r = xmlHttp) {
+                    e = document;
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+			
+            $('form.ajax').on('submit',function () {
+                var that =$(this);
+                url=that.attr('action'),
+                        type= that.attr('method'),
+                        data={};
+
+                that.find('[name]').each(function (index) {
+                    var that= $(this),
+                            name=that.attr('name');
+                    data[name]=that.val();
+                });
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                    }
+
+
+                });
+                return false;
+            })
+
+
+			var task;
+			var job;
+			var id;
+            function allowDrop(ev) {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = "move";
+				
+            }
+			
+            function drag(ev) {
+			
+				
+                id = ev.target.id;
+				task = ev.target;
+				
+				ev.dataTransfer.setData("text", ev.target.id);
+
+				
+				
+				
+            }
+
+			var test;
+			
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+
+
+
+                if (ev.ctrlKey)
+                {
+                    var nodeCopy = document.getElementById(data).cloneNode(true);
+                    nodeCopy.id = "newId"; /* We cannot use the same ID */
+					
+					
+					var t = document.createElement('task');
+					ev.target.appendChild(t);
+					
+					var Y = ev.pageY;
+                    ev.target.appendChild(nodeCopy);
+					
+					 
+                }
+                else {
+				
+					var Y = ev.pageY;
+					var X = ev.pageX;
+					var k = 0;
+					var z = 0;
+					var y = Y-255;
+					console.log(y);
+					if (Y<200){
+						addJob('/return/'+id);
+						document.getElementById(data).style.marginTop = 5+"px";
+						var yz = ev.target.appendChild(document.getElementById(data));
+						
+					}else{
+					
+					
+					task.style.marginTop = y+"px";
+					var idDay = ev.target.id;
+					var yz = ev.target.appendChild(document.getElementById(data));
+						
+					addJob('/test/'+ y +'/'+idDay+'/'+id);
+					}
+                   
+                }
+				
+				
+
+            }
+				
+
+
+
+            var xmlHttp = createXmlHttpRequestObject();
+
+            function createXmlHttpRequestObject()
+            {
+                var xmlHttp;
+
+                if(window.ActiveXObject)
+                {
+                    try
+                    {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        xmlHttp = new XMLHttpRequest();
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+
+                if(!xmlHttp)
+                    alert("cant create object");
+                else
+                    return xmlHttp;
+
+
+            }
+
+
+            var r;
+            var e;
+
+
+function taskClick( id ) {
+
+	
+
+	changeList('/showAccept/' + id , 'list');
+ 
+}
+
+
+
+
+           
+
+
+        </script>
+
+    {% endblock %}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+

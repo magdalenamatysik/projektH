@@ -1,0 +1,54 @@
+{% extends 'base.html.twig'  %}
+
+
+
+
+{% block body %}
+
+<div id ="box"> </div> 
+
+ {% block javascript %}
+        <script>
+
+		
+		{% for ing in Ingrydients %}
+		
+			var node = document.createElement("div");			
+				node.setAttribute("class", "task");
+				node.style.margin = "2px";
+				node.style.width = "19%";
+				node.style.height = "35px";
+				node.setAttribute("id","{{ing.id}}");
+				node.setAttribute("onclick", "add({{ing.id}})");
+		
+				var textnode = document.createTextNode("{{ing.name}}");        
+				node.appendChild(textnode);  
+			document.getElementById("box").appendChild(node);
+			
+			
+		{% endfor %}
+		
+		  function add(id){
+			var ing = document.getElementById(id);
+			ing.style.height = "70px";
+			ing.setAttribute("onclick","false");
+			
+			var pole = document.createElement("input");
+			pole.setAttribute("class","poler");
+			pole.setAttribute("type", "text");
+			pole.setAttribute("value", "podaj ilość");
+			
+			
+			ing.appendChild(pole);
+			
+			document.getElementById("list").appendChild(ing);
+			
+			
+		 } 
+
+		</script>
+
+ {% endblock %}
+ 
+{% endblock %}
+

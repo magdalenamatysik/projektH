@@ -1,0 +1,342 @@
+{% extends 'base.html.twig'  %}
+
+
+
+
+{% block body %}
+
+
+
+
+    <div id="container">
+
+
+
+        <div id="menu">
+
+            <a href="/harmonogram/logout" style="text-decoration: none" >
+                <div id ="user_panel">
+                    
+                        Hej, {{ user.login }}
+                
+
+                </div>
+            </a>
+
+
+            <a href="#" onclick="changeList('/add','list')" style="text-decoration: none" >
+
+
+                <div id= "add_meetbox" style="background-color:#e6db55">
+                  
+                        dodaj zadanie
+                   
+                </div>
+            </a>
+
+            <a href="#" onclick="changeList('/addmeet','list')" style="text-decoration: none" >
+
+                <div id= "add_meetbox">
+                 
+                        dodaj spotkanie
+                   
+                </div>
+            </a>
+			
+			<a href="/friend" style="text-decoration: none" >
+
+                <div id= "add_meetbox">
+                 
+                        friends
+                   
+                </div>
+            </a>
+
+
+        </div>
+
+        <div id="list" >
+          		
+		
+		
+
+        </div>
+
+		<form action="/findFriend" method="Post">
+			
+
+			<div class="polel"> szukaj znajomych </div> <input type="text" class="poler" name="name" >
+		
+			<input type ="submit" class="button" value="szukaj">
+
+		</form>
+		
+		
+        <div id="harm">
+ 
+ 
+
+
+ 
+ 
+ 
+
+        </div>
+		    
+	 </div>
+		
+
+			
+
+   
+
+
+    {% block javascript %}
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script>
+
+		var z;
+		
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;
+						
+                    }
+                }
+            }
+
+            function changeList(adresurl, htmlid)
+            {
+			 
+			
+                if (r = xmlHttp) {
+                    e = document.getElementById(htmlid);
+                    
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+				
+			
+            }
+		
+			
+          
+
+          
+
+		var friend;
+		var button;
+		
+{% for t in friend %}
+
+	 friend = document.createElement("div");			
+		friend.setAttribute("class", "friend" );
+		var textnode = document.createTextNode("{{t.login}}");
+		friend.appendChild(textnode);
+		document.getElementById("list").appendChild(friend);
+
+		button = document.createElement("a");			
+		button.setAttribute("class", "button" );
+		button.setAttribute("href", '/addFriend/'+'{{t.login}}');
+		var textnode = document.createTextNode("dodaj");
+		button.appendChild(textnode);
+		document.getElementById("list").appendChild(button);
+		
+{% endfor %}	
+	
+       function addFriend(login){
+		
+		
+	   
+	   }     
+
+
+
+            currentX =currentY =0;
+            var idJob =0;
+			
+			
+			
+	
+	
+
+			function addJob(adresurl)
+            {
+                if (r = xmlHttp) {
+                    e = document;
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+			
+            $('form.ajax').on('submit',function () {
+                var that =$(this);
+                url=that.attr('action'),
+                        type= that.attr('method'),
+                        data={};
+
+                that.find('[name]').each(function (index) {
+                    var that= $(this),
+                            name=that.attr('name');
+                    data[name]=that.val();
+                });
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                    }
+
+
+                });
+                return false;
+            })
+
+
+			var task;
+			var job;
+			var id;
+            function allowDrop(ev) {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = "move";
+				
+            }
+			
+            function drag(ev) {
+			
+				
+                id = ev.target.id;
+				task = ev.target;
+				
+				ev.dataTransfer.setData("text", ev.target.id);
+
+				
+				
+				
+            }
+
+			var test;
+			
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+
+
+
+                if (ev.ctrlKey)
+                {
+                    var nodeCopy = document.getElementById(data).cloneNode(true);
+                    nodeCopy.id = "newId"; /* We cannot use the same ID */
+					
+					
+					var t = document.createElement('task');
+					ev.target.appendChild(t);
+					
+					var Y = ev.pageY;
+                    ev.target.appendChild(nodeCopy);
+					
+					 
+                }
+                else {
+				
+					var Y = ev.pageY;
+					var X = ev.pageX;
+					var k = 0;
+					var z = 0;
+					var y = Y-255;
+					console.log(y);
+					if (Y<200){
+						addJob('/return/'+id);
+						document.getElementById(data).style.marginTop = 5+"px";
+						var yz = ev.target.appendChild(document.getElementById(data));
+						
+					}else{
+					
+					
+					task.style.marginTop = y+"px";
+					var idDay = ev.target.id;
+					var yz = ev.target.appendChild(document.getElementById(data));
+						
+					addJob('/test/'+ y +'/'+idDay+'/'+id);
+					}
+                   
+                }
+				
+				
+
+            }
+				
+
+
+
+            var xmlHttp = createXmlHttpRequestObject();
+
+            function createXmlHttpRequestObject()
+            {
+                var xmlHttp;
+
+                if(window.ActiveXObject)
+                {
+                    try
+                    {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        xmlHttp = new XMLHttpRequest();
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+
+                if(!xmlHttp)
+                    alert("cant create object");
+                else
+                    return xmlHttp;
+
+
+            }
+
+
+            var r;
+            var e;
+
+
+
+
+
+
+           
+
+
+        </script>
+
+    {% endblock %}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+

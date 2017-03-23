@@ -1,0 +1,30 @@
+{% extends 'base.html.twig'  %}
+
+ {% block javascript %}
+
+
+ {% endblock %}
+
+
+{% block body %}
+
+			<form action="/show/{{id}}" method="Post">
+			<div id="add_meet" >
+
+			<div class="polel"> nazwa</div> 	<input type="text" value="{{name}} " class="poler" name="name" >
+			<div class="polel"> opis</div> 	    <textarea name="description"  class="poler" style="width: 185px;" > {{description}}</textarea>
+			<div class="polel"> czas</div>		<input type="text" class="poler"  value="{{duration}}" name="duration" >
+			<div class="polel"> data </div>	 	<input type="datetime-local" value= DataTime( {{data}} ) style="float: left; margin-top: 5px;" name="deadline" >
+			
+			<input type ="submit" class="button" value="dodaj">
+			<a href="/delete/{{id}} ">  <div class="button" style="margin-top: 0px">usuń</div> </a>
+			</div>
+			</form>
+			
+
+
+{% endblock %}
+
+
+
+

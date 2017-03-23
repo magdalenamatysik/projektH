@@ -1,0 +1,404 @@
+{% extends 'base.html.twig'  %}
+
+
+
+
+{% block body %}
+
+
+
+
+    <div id="container">
+
+
+
+        
+        <div id="menu">
+
+            <a href="/harmonogram/logout" style="text-decoration: none" >
+                <div id ="user_panel">
+                   
+                        Hej, {{ user.login }}
+                    
+
+                </div>
+            </a>
+
+
+				<a href="#" onclick="changeList('/food','list')" style="text-decoration: none" >
+
+
+                <div id= "add_meetbox" style="background-color:#48D1CC">
+                  
+                        food
+                   
+                </div>
+            </a>
+			
+            <a href="#" onclick="changeList('/add','list')" style="text-decoration: none" >
+
+
+                <div id= "add_meetbox" style="background-color:#e6db55">
+                  
+                        dodaj zadanie
+                   
+                </div>
+            </a>
+
+            <a href="#" onclick="changeList('/addmeet','list')" style="text-decoration: none" >
+
+                <div id= "add_meetbox">
+                 
+                        dodaj spotkanie
+                   
+                </div>
+            </a>
+			
+		
+
+			
+			
+			<a href="/friend" style="text-decoration: none" >
+
+                <div id= "add_meetbox" style="text-decoration: none; background-color: #ea2a6a; color: white">
+                 
+                        znajomi
+                   
+                </div>
+            </a>
+
+
+        </div>
+
+        <div id="list" >
+          		
+			<div class="polel" style="width: 120px;" > Wiadomość </div> 
+			<textarea name="description" class="poler" style="width: 200px; height: 150px; float: clear;" ></textarea>
+			<input  class="button" onclick="changeList('/findTask', 'list')" style="width: 120px;"value="wybierz zadanie">
+			<input type ="submit" class="button" value="wyslij">
+
+        </div>
+
+		<form action="/findFriend" method="Post">
+			
+
+			<div class="polel" style=" width: 20%;"> szukaj znajomych </div> <input type="text" class="poler" name="name" >
+		
+			<input type ="submit" class="button" value="szukaj">
+
+		</form>
+		
+		
+        <div id="harm">
+ 
+ 
+
+
+ 
+ 
+ 
+
+        </div>
+		    
+	 </div>
+		
+
+			
+
+   
+
+
+    {% block javascript %}
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script>
+
+		var z;
+		
+			 function odbierzDane()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;
+						
+                    }
+                }
+            }
+
+			function odbierzDane2()
+            {
+                if (r.readyState == 4) {
+                    if (r.status == 200 || r.status == 304) {
+                        
+						
+						e.innerHTML = r.response;  
+						var codes = e.getElementsByTagName("script");   
+						for(var i=0;i<codes.length;i++)  
+						{  
+							eval(codes[i].text);  
+						}  
+                    }
+                }
+            }
+			
+			var jobID=-1;
+			var friendID=-1;
+			
+			function addTask(id)
+            {
+				
+				jobID=id;
+				
+				document.getElementById("list").insertAdjacentHTML('afterbegin', '<form action="/send/'+ friendID+'/'+ jobID+'" method="Post"> <div class="polel" style="width: 120px;" > Wiadomość </div> <textarea name="description" class="poler" style="width: 200px; height: 150px; float: clear;" ></textarea> <input  class="button" onclick="changeList("/findTask", "list")" style="width: 120px;" value= "wybano "> <input type ="submit" class="button" value="wyslij"> </form>');
+            }
+			
+			
+            function changeList(adresurl, htmlid)
+            {
+			 
+			
+                if (r = xmlHttp) {
+                    e = document.getElementById(htmlid);
+                    
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane2;
+                    r.send(null);
+                }
+				
+			
+            }
+		
+			
+          
+{% for f in friends %}
+
+	friend = document.createElement("div");			
+		var textnode;
+			if ({{f.accept}}==0) {
+				friend.setAttribute("class","friendAccept");
+				friend.setAttribute("onclick", "accept({{f.id}})" );
+				textnode = document.createTextNode("{{f.login}} AKCEPTUJ");
+			}
+			else{
+				friend.setAttribute("class", "friend" );
+				friend.setAttribute("onclick", "friendClick({{f.login}})" );
+				textnode = document.createTextNode("{{f.login}}");
+			}
+		
+		friend.setAttribute("id", "{{f.id}}" );
+		
+	
+		
+		friend.appendChild(textnode);
+		document.getElementById("harm").appendChild(friend);
+
+		
+	
+		
+{% endfor %}	
+          
+
+			
+			function friendClick(id){
+			
+				friendID= id;
+				
+				console.log(id);
+			}
+	
+            function accept(id){
+			
+				addJob('/acceptFriend/'+id);
+			}
+		
+
+
+            currentX =currentY =0;
+            var idJob =0;
+			
+			
+			
+	function send(){
+		
+		addJob('/send/'+friendID+'/'+jobID);
+		
+		
+	}
+	
+
+			function addJob(adresurl)
+            {
+                if (r = xmlHttp) {
+                    e = document;
+                    r.open('GET', adresurl);
+                    r.onreadystatechange = odbierzDane;
+                    r.send(null);
+                }
+            }
+			
+            $('form.ajax').on('submit',function () {
+                var that =$(this);
+                url=that.attr('action'),
+                        type= that.attr('method'),
+                        data={};
+
+                that.find('[name]').each(function (index) {
+                    var that= $(this),
+                            name=that.attr('name');
+                    data[name]=that.val();
+                });
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                    }
+
+
+                });
+                return false;
+            })
+
+
+			var task;
+			var job;
+			var id;
+            function allowDrop(ev) {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = "move";
+				
+            }
+			
+            function drag(ev) {
+			
+				
+                id = ev.target.id;
+				task = ev.target;
+				
+				ev.dataTransfer.setData("text", ev.target.id);
+
+				
+				
+				
+            }
+
+			var test;
+			
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+
+
+
+                if (ev.ctrlKey)
+                {
+                    var nodeCopy = document.getElementById(data).cloneNode(true);
+                    nodeCopy.id = "newId"; /* We cannot use the same ID */
+					
+					
+					var t = document.createElement('task');
+					ev.target.appendChild(t);
+					
+					var Y = ev.pageY;
+                    ev.target.appendChild(nodeCopy);
+					
+					 
+                }
+                else {
+				
+					var Y = ev.pageY;
+					var X = ev.pageX;
+					var k = 0;
+					var z = 0;
+					var y = Y-255;
+					console.log(y);
+					if (Y<200){
+						addJob('/return/'+id);
+						document.getElementById(data).style.marginTop = 5+"px";
+						var yz = ev.target.appendChild(document.getElementById(data));
+						
+					}else{
+					
+					
+					task.style.marginTop = y+"px";
+					var idDay = ev.target.id;
+					var yz = ev.target.appendChild(document.getElementById(data));
+						
+					addJob('/test/'+ y +'/'+idDay+'/'+id);
+					}
+                   
+                }
+				
+				
+
+            }
+				
+
+
+
+            var xmlHttp = createXmlHttpRequestObject();
+
+            function createXmlHttpRequestObject()
+            {
+                var xmlHttp;
+
+                if(window.ActiveXObject)
+                {
+                    try
+                    {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        xmlHttp = new XMLHttpRequest();
+                    }catch(e)
+                    {
+                        xmlHttp = false;
+                    }
+                }
+
+                if(!xmlHttp)
+                    alert("cant create object");
+                else
+                    return xmlHttp;
+
+
+            }
+
+
+            var r;
+            var e;
+
+
+
+
+
+
+           
+
+
+        </script>
+
+    {% endblock %}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
